@@ -7,25 +7,30 @@ font-family: 'Stick No Bills', sans-serif;
 font-family: 'Turret Road', cursive; */
 
 @layer base {
-  html {
-    font-family: "Quantico", sans-serif;
-  }
+	html {
+		font-family: "Quantico", sans-serif;
+	}
 }
 
 * {
-  box-sizing: border-box !important;
+	box-sizing: border-box !important;
 }
 
 p {
-  padding: 0px 0;
+	padding: 0px 0;
 }
 
 h4 {
-  padding: 32px 0 12px 0;
-  font-weight: bold;
+	padding: 32px 0 12px 0;
+	font-weight: bold;
 }
 
 main {
-  margin: 0 auto;
-  max-width: 1400px;
+	margin: 0 auto;
+	max-width: 1400px;
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
 }
