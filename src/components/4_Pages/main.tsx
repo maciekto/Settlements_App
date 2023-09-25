@@ -5,12 +5,24 @@ import "../base/base.css";
 import Auth from "./Auth/Auth.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import LoginPage from "./LoginPage/LoginPage.tsx";
-import UserContext from "../context/UserContext.tsx";
+import Events from "../2_Organisms/Events/Events.tsx";
+import EventCreate from "../2_Organisms/EventCreate/EventCreate.tsx";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Auth />,
+		children: [
+			// Default path after login and outlet in App component
+			{
+				path: "/",
+				element: <Events />,
+			},
+			{
+				path: "/events/create",
+				element: <EventCreate />,
+			},
+		],
 	},
 	{
 		path: "/login",

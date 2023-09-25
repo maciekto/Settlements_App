@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { auth } from "../../../firebase";
@@ -31,18 +31,19 @@ export default function LoginPage() {
 				const token = credential.accessToken;
 				console.log(token);
 				// The signed-in user info.
-				const user = result.user;
+				// const user = result.user;
 				// IdP data available using getAdditionalUserInfo(result)
 				// ...
 			})
 			.catch((error) => {
+				console.log(error.message);
 				// Handle Errors here.
-				const errorCode = error.code;
-				const errorMessage = error.message;
+				// const errorCode = error.code;
+				// const errorMessage = error.message;
 				// The email of the user's account used.
-				const email = error.customData.email;
+				// const email = error.customData.email;
 				// The AuthCredential type that was used.
-				const credential = GoogleAuthProvider.credentialFromError(error);
+				// const credential = GoogleAuthProvider.credentialFromError(error);
 				// ...
 			});
 	}

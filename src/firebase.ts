@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app"; // no compat for new SDK
-import { getDatabase } from "firebase/database";
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { child, get, getDatabase, onValue, ref, set } from "firebase/database";
+import { User, getAuth } from "firebase/auth";
 
 // Get your config here
 const firebaseConfig = {
@@ -17,8 +16,63 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
+// For onValue call to database
 const database = getDatabase(firebaseApp);
+// For one call to db
+export const dbRef = ref(getDatabase());
 
 export default firebaseApp;
 export const db = database;
 export const auth = getAuth(firebaseApp);
+
+export async function isUserInDB(user: User) {
+	return await get(child(dbRef, `users/${user.uid}`))
+		.then((snapshot) => {
+			if (snapshot.exists()) {
+				// console.log(snapshot.val());
+				console.log("FIREBASE - User exists in DB");
+				return true;
+			}
+
+			if (!snapshot.exists()) {
+				console.log("FIREBASE - User not found in DB");
+				return false;
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
+
+export async function createNewUserInDB({ uid, displayName, email, photoURL }: User) {
+	await set(ref(db, `users/${uid}`), {
+		displayName: displayName,
+		email: email,
+		photoUrl: photoURL,
+	})
+		.then(() => {
+			console.log("FIREBASE - Data saved successfully");
+		})
+		.catch((err) => {
+			console.log("FIREBASE - Error while creating new user: \n\n" + err.message);
+		});
+}
+
+export async function getEvents(uid: string) {
+	return await get(child(dbRef, `events/`))
+		.then((snapshot) => {
+			if (snapshot.exists()) {
+				// console.log(snapshot.val());
+				console.log("FIREBASE - Events exists");
+				return snapshot.val();
+			}
+
+			if (!snapshot.exists()) {
+				console.log("FIREBASE - Events not found in DB");
+				return null;
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
