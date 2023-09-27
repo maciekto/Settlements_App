@@ -1,12 +1,17 @@
-export default function Event({ name, owner, date }: any) {
-	console.log(name);
+interface Props {
+	event: SettlementEvent;
+}
+
+export default function Event({ event }: Props): JSX.Element {
 	return (
-		<div key='bang'>
-			{name}
+		<div
+			className='border'
+			key='bang'>
+			{event.name}
 			<br />
-			{owner}
+			{event.owner}
 			<br />
-			{date}
+			{event.date}
 		</div>
 	);
 }

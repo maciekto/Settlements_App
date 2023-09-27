@@ -1,4 +1,4 @@
-interface Event {
+interface SettlementEvent {
 	name: string;
 	owner: string;
 	date: string;

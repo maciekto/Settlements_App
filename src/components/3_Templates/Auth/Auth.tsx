@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { auth, createNewUserInDB, isUserInDB } from "../../../firebase";
-import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import App from "../App/App";
+import { auth, createNewUserInDB, isUserInDB } from '../../../firebase';
+import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import App from '../App/App';
 
 export default function Auth() {
 	const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Auth() {
 	useEffect(function () {
 		onAuthStateChanged(auth, async (usr) => {
 			if (usr) {
-				console.log("AUTH: Logged");
+				console.log('AUTH: Logged');
 				const isUser = await isUserInDB(usr);
 				if (isUser) {
 					// TODO: Write loader
@@ -22,7 +22,7 @@ export default function Auth() {
 					await createNewUserInDB(usr);
 				}
 			} else {
-				navigate("/login");
+				navigate('/login');
 			}
 		});
 	}, []);
