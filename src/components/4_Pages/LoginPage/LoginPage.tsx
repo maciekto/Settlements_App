@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
-import { auth } from "../../../firebase";
-import { useNavigate } from "react-router-dom";
-import Button from "../../0_Atoms/Button.tsx/Button";
-import { GoogleAuthProvider } from "firebase/auth";
+import { onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../../firebase';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../0_Atoms/Button.tsx/Button';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -12,9 +12,9 @@ export default function LoginPage() {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				navigate("/");
+				navigate('/');
 			} else {
-				navigate("/login");
+				navigate('/login');
 			}
 		});
 	}, []);
@@ -52,8 +52,11 @@ export default function LoginPage() {
 		<div className='p-6 flex justify-center w-full h-screen items-center'>
 			<div className='w-96 text-center'>
 				You are logged out <br />
-				<br />
-				<Button onClick={redirectToGoogle}>Sign In With Google</Button>
+				<Button
+					onClick={redirectToGoogle}
+					type='CTA'>
+					Sign In With Google
+				</Button>
 			</div>
 		</div>
 	);

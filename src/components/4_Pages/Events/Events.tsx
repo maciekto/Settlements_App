@@ -28,11 +28,6 @@ export default function Events() {
 		}
 	}
 
-	const navigate = useNavigate();
-	function createEvent(): void {
-		navigate('/events/create');
-	}
-
 	useEffect(() => {
 		if (auth.currentUser != null) {
 			handleEvents(auth.currentUser.uid);
@@ -42,16 +37,16 @@ export default function Events() {
 	return (
 		<>
 			<EventList
+				buttonAddEvent={true}
 				title='Your events'
 				events={myEvents}
 			/>
 			<br />
 			<EventList
+				buttonAddEvent={false}
 				title='Events you participate in'
 				events={participateEvents}
 			/>
-
-			<Button onClick={createEvent}>Add Event</Button>
 		</>
 	);
 }
