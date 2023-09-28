@@ -11,11 +11,12 @@ interface Props {
 export default function EventList({ title, events, buttonAddEvent }: Props): JSX.Element {
 	const renderEvents = () => {
 		if (events === false) {
+			// TODO: Write loader
 			return <div>loading</div>;
 		}
 
 		if (events) {
-			// Todo: make indexes
+			// TODO: make indexes
 			return events.map((event: SettlementEvent): JSX.Element => {
 				return <Event event={event} />;
 			});
@@ -28,7 +29,7 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 	}
 
 	return (
-		<div>
+		<div className='w-full'>
 			<p>{title}</p>
 			{buttonAddEvent ? (
 				<Button

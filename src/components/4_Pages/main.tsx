@@ -5,8 +5,9 @@ import '../base/base.css';
 import Auth from '../3_Templates/Auth/Auth.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import LoginPage from './LoginPage/LoginPage.tsx';
-import Events from './Events/Events.tsx';
+import MainPage from './Events/MainPage.tsx';
 import EventCreate from './EventCreate/EventCreate.tsx';
+import EventDashboard from './EventDashboard/EventDashboard.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
 			// Default path after login and outlet in App component
 			{
 				path: '/',
-				element: <Events />,
+				element: <MainPage />,
+			},
+			{
+				path: '/event/:id',
+				element: <EventDashboard />,
 			},
 			{
 				path: '/events/create',

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { auth, createNewUserInDB, isUserInDB } from '../../../firebase';
+import { auth } from '../../../services/firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import App from '../App/App';
+import { createNewUserInDB, isUserInDB } from '../../../services/firebase/users/auth';
 
 export default function Auth() {
 	const navigate = useNavigate();

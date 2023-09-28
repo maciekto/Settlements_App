@@ -1,5 +1,5 @@
 import Button from '../../0_Atoms/Button.tsx/Button';
-import { auth } from '../../../firebase';
+import { auth } from '../../../services/firebase/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { onAuthStateChanged, signInWithPopup } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import { auth } from '../../../services/firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../0_Atoms/Button.tsx/Button';
 import { GoogleAuthProvider } from 'firebase/auth';
