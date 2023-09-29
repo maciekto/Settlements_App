@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import Button from '../../0_Atoms/Button.tsx/Button';
+import Button from '../../0_Atoms/Button/Button';
 import Event from '../../1_Molecues/Event/Event';
+import Loader from '../../0_Atoms/Loader/Loader';
 
 interface Props {
 	title: string;
@@ -11,8 +12,7 @@ interface Props {
 export default function EventList({ title, events, buttonAddEvent }: Props): JSX.Element {
 	const renderEvents = () => {
 		if (events === false) {
-			// TODO: Write loader
-			return <div>loading</div>;
+			return <Loader size='small' />;
 		}
 
 		if (events) {

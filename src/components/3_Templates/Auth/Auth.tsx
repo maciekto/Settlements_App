@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import App from '../App/App';
 import { createNewUserInDB, isUserInDB } from '../../../services/firebase/users/auth';
+import Loader from '../../0_Atoms/Loader/Loader';
 
 export default function Auth() {
 	const navigate = useNavigate();
@@ -16,7 +17,6 @@ export default function Auth() {
 				console.log('AUTH: Logged');
 				const isUser = await isUserInDB(usr);
 				if (isUser) {
-					// TODO: Write loader
 					setIsDatabaseUser(isUser);
 				}
 				if (!isUser) {
@@ -28,5 +28,11 @@ export default function Auth() {
 		});
 	}, []);
 
-	return isDatabaseUser ? <App /> : <div className='w-full h-screen flex justify-center items-center'>LOADING</div>;
+	return isDatabaseUser ? (
+		<App />
+	) : (
+		<div className='h-screen'>
+			<Loader size='big' />
+		</div>
+	);
 }

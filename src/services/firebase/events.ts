@@ -1,6 +1,7 @@
 import { child, equalTo, get, onValue, orderByChild, query, ref, set } from 'firebase/database';
 import { db, dbRef } from './firebase';
 
+// ! Test proper data queries
 function testSet() {
 	set(ref(db, `e`), {
 		displayName: 'bang test',
@@ -15,7 +16,8 @@ function testGet() {
 		console.log(snapshot.val().equalTo('sex'));
 	});
 }
-testGet();
+// testGet();
+// ! Test proper data queries
 
 export async function getEvents(uid: string, type: string): Promise<SettlementEvent[] | false> {
 	return await get(child(dbRef, `events/`))

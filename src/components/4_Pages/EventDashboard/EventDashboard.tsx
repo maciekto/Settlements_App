@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { auth } from '../../../services/firebase/firebase';
 import { getEvents } from '../../../services/firebase/events';
+import Loader from '../../0_Atoms/Loader/Loader';
 
 export default function EventDashboard() {
 	const params = useParams();
@@ -49,7 +50,7 @@ export default function EventDashboard() {
 	}, []);
 
 	if (selectedEvent === false) {
-		return <div>Loading</div>;
+		return <Loader size='big' />;
 	}
 
 	if (selectedEvent) {
