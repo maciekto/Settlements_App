@@ -39,7 +39,6 @@ export default function AsideMenu({ isMenuVisible }: Props) {
 	}, [isMenuVisible]);
 
 	return (
-		// TODO: Make animation for aside
 		<aside className={`${asideAnimation} ${styleIsMenuVisible} absolute right-0 top-0 w-96 h-screenIOs bg-transparent grid grid-rows-AppTemplate z-10 `}>
 			<div className='text-right bg-transparent rounded-b-2xl w-full'>
 				<br />

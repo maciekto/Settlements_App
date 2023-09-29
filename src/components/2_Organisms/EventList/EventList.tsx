@@ -16,9 +16,13 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 		}
 
 		if (events) {
-			// TODO: make indexes
 			return events.map((event: SettlementEvent): JSX.Element => {
-				return <Event event={event} />;
+				return (
+					<Event
+						key={event.id}
+						event={event}
+					/>
+				);
 			});
 		}
 	};

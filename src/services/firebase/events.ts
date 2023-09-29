@@ -1,4 +1,4 @@
-import { child, equalTo, get, onValue, orderByChild, query, ref, set } from 'firebase/database';
+import { child, equalTo, get, limitToLast, onValue, orderByChild, query, ref, set } from 'firebase/database';
 import { db, dbRef } from './firebase';
 
 // ! Test proper data queries
@@ -10,13 +10,17 @@ function testSet() {
 }
 function testGet() {
 	// TODO: FIRST get to know how to get only needed data from database
-	const eventOrdered = query(ref(db, 'e'), orderByChild('/owner'));
+	// ^ wiem co to query ale jak zastosować metodę i przefiltrować dane.
+	// ^ indexon jak będzie dużo danych
+	// ^ https://firebase.google.com/docs/database/web/lists-of-data?hl=pl#web-modular-api_6
+	const eventOrdered = query(ref(db, 'e'), equalTo('siemanoid'));
 
 	onValue(eventOrdered, (snapshot) => {
-		console.log(snapshot.val().equalTo('sex'));
+		console.log(snapshot);
+		console.log(snapshot.val());
 	});
 }
-// testGet();
+testGet();
 // ! Test proper data queries
 
 export async function getEvents(uid: string, type: string): Promise<SettlementEvent[] | false> {
