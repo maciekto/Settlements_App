@@ -22,7 +22,7 @@ export default function Loader({ size }: Props) {
 		<div className={`${currentSize} w-full grid p-6 place-items-center h-full`}>
 			<FontAwesomeIcon
 				icon={faSpinner}
-				beatFade
+				spin
 			/>
 		</div>
 	);
