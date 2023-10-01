@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../0_Atoms/Button/Button';
-import Footer from '../Footer/Footer';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../services/firebase/firebase';
 import { useEffect, useState } from 'react';

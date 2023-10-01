@@ -15,6 +15,7 @@ font-family: 'Turret Road', cursive; */
 * {
 	box-sizing: border-box !important;
 	max-height: 100svh;
+	-webkit-tap-highlight-color: transparent;
 }
 
 p {

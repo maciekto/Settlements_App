@@ -1,66 +1,85 @@
-import { child, equalTo, get, limitToLast, onValue, orderByChild, query, ref, set } from 'firebase/database';
+import { Query, child, equalTo, get, onValue, orderByChild, orderByValue, query, ref } from 'firebase/database';
 import { db, dbRef } from './firebase';
 
-// ! Test proper data queries
-function testSet() {
-	set(ref(db, `e`), {
-		displayName: 'bang test',
-		id: 'siemano',
-	});
-}
-function testGet() {
-	// TODO: FIRST get to know how to get only needed data from database
-	// ^ wiem co to query ale jak zastosować metodę i przefiltrować dane.
-	// ^ indexon jak będzie dużo danych
-	// ^ https://firebase.google.com/docs/database/web/lists-of-data?hl=pl#web-modular-api_6
-	const eventOrdered = query(ref(db, 'e'), equalTo('siemanoid'));
+// TODO: Figure out how to set .indexOn in firebase
 
-	onValue(eventOrdered, (snapshot) => {
-		console.log(snapshot);
-		console.log(snapshot.val());
+export async function getData(query: Query) {
+	return await get(query).then((snapshot) => {
+		if (snapshot.exists()) {
+			console.log('FIREBASE - My Events exists');
+			const dbData: SettlementEvent[] = snapshot.val();
+
+			// restucture object to: Array[Array[key], Array[values]]
+			const formatedData: [string, SettlementEvent][] = Object.values(Object.entries(dbData));
+
+			// restructure formatedData to Array of SettledEvents
+			const finalData: SettlementEvent[] = formatedData.map((el: [string, SettlementEvent]): SettlementEvent => {
+				const bang = {
+					...el[1],
+					id: el[0],
+				};
+				return bang;
+			});
+			return finalData;
+		}
+		return false;
 	});
 }
-testGet();
-// ! Test proper data queries
 
 export async function getEvents(uid: string, type: string): Promise<SettlementEvent[] | false> {
-	return await get(child(dbRef, `events/`))
-		.then((snapshot) => {
-			if (snapshot.exists()) {
-				console.log('FIREBASE - Events exists');
-				const dbData: SettlementEvent[] = snapshot.val();
+	if (type === 'myEvents') {
+		const myEventsQuery = query(ref(db, 'events'), orderByChild('/owner'), equalTo(uid));
+		return await getData(myEventsQuery);
+	}
 
-				// restucture object to: Array[Array[key], Array[values]]
-				const formatedData: [string, SettlementEvent][] = Object.values(Object.entries(dbData));
+	if (type === 'participateEvents') {
+		const participateEventsQuery = query(ref(db, 'events'), orderByChild(`/users/${uid}`), equalTo(uid));
+		return await getData(participateEventsQuery);
+	}
 
-				// restructure formatedData to Array of SettledEvents
-				const finalData: SettlementEvent[] = formatedData.map((el: [string, SettlementEvent]): SettlementEvent => {
-					const bang = {
-						...el[1],
-						id: el[0],
-					};
-					return bang;
-				});
+	return false;
 
-				if (type === 'myEvents') {
-					return returnMyEvents(finalData);
-				}
+	// if (type === 'participateEvents') {
+	// 	return returnParticipateEvents(finalData);
+	// }
 
-				if (type === 'participateEvents') {
-					return returnParticipateEvents(finalData);
-				}
-			}
+	// return await get(child(dbRef, `events/`))
+	// 	.then((snapshot) => {
+	// 		if (snapshot.exists()) {
+	// 			console.log('FIREBASE - Events exists');
+	// 			const dbData: SettlementEvent[] = snapshot.val();
 
-			if (!snapshot.exists()) {
-				console.log('FIREBASE - Events not found in DB');
-				return false;
-			}
-			return false;
-		})
-		.catch((error) => {
-			console.error(error);
-			return false;
-		});
+	// 			// restucture object to: Array[Array[key], Array[values]]
+	// 			const formatedData: [string, SettlementEvent][] = Object.values(Object.entries(dbData));
+
+	// 			// restructure formatedData to Array of SettledEvents
+	// 			const finalData: SettlementEvent[] = formatedData.map((el: [string, SettlementEvent]): SettlementEvent => {
+	// 				const bang = {
+	// 					...el[1],
+	// 					id: el[0],
+	// 				};
+	// 				return bang;
+	// 			});
+
+	// 			if (type === 'myEvents') {
+	// 				return returnMyEvents(finalData);
+	// 			}
+
+	// 			if (type === 'participateEvents') {
+	// 				return returnParticipateEvents(finalData);
+	// 			}
+	// 		}
+
+	// 		if (!snapshot.exists()) {
+	// 			console.log('FIREBASE - Events not found in DB');
+	// 			return false;
+	// 		}
+	// 		return false;
+	// 	})
+	// 	.catch((error) => {
+	// 		console.error(error);
+	// 		return false;
+	// 	});
 
 	function returnMyEvents(dataArray: SettlementEvent[]): SettlementEvent[] {
 		// Filter events by uid to get only for the current user
