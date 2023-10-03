@@ -3,6 +3,13 @@ export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
+			colors: {
+				themeGreen: '#c6ffdd',
+				themeYellow: '#fbd786',
+				themeRed: '#f7797d',
+				themeBlue: '#114357',
+				themePink: '#F29492',
+			},
 			gridTemplateRows: {
 				AppTemplate: 'auto 1fr auto',
 			},
@@ -21,15 +28,17 @@ export default {
 					'100%': { transform: 'translateX(100%)', opacity: 0 },
 				},
 				pulse: {
-					'0%': { transform: 'scale(1)' },
-					'50%': { transform: 'scale(1.4)' },
-					'100%': { transform: 'scale(1)' },
+					'0%': { transform: 'scale(1) rotate(0deg)' },
+					'25%': { transform: 'rotate(5deg)' },
+					'50%': { transform: 'scale(1.15)' },
+					'75%': { transform: 'rotate(-5deg)' },
+					'100%': { transform: 'scale(1) rotate(0deg)' },
 				},
 			},
 			animation: {
 				menuIn: 'menuIn 0.4s ease-in both',
 				menuOut: 'menuOut 0.4s ease-in-out both',
-				pulse: 'pulse 0.4s linear both',
+				pulse: 'pulse 0.3s ease-out both',
 			},
 		},
 	},

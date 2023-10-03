@@ -10,28 +10,46 @@ import Loader from '../../0_Atoms/Loader/Loader';
 import MyEventsContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
 import { equalTo, onValue, query, ref } from 'firebase/database';
+import UserContext from '../../context/UserContext';
+import { setLogLevel } from 'firebase/app';
 
 export default function EventDashboard() {
 	const params = useParams();
 
 	const myEvents = useContext(MyEventsContext);
 	const participateEvents = useContext(ParticipateEventsContext);
+	const myUser = useContext(UserContext);
 
 	const [selectedEvent, setSelectedEvent] = useState<undefined | SettlementEvent>(undefined);
+	const [errorMessage, setErrorMessage] = useState<string | false>(false);
+
 	const [usersInEvent, setUsersInEvent] = useState<MyUser[]>([]);
+	const [eventOwner, setEventOwner] = useState<MyUser | undefined>(undefined);
 
 	// const myEvents: false | SettlementEvent[] = useContext(MyEventContext);
 	function handleEvents(): void {
-		if (params.id === undefined) return;
+		if (myUser === undefined) {
+			return;
+		}
+		if (params.id === undefined) {
+			setErrorMessage('Event not Found');
+			return;
+		}
 
 		if (myEvents) {
 			const myEvent: false | SettlementEvent = findEventWithId(myEvents, params.id);
-			if (myEvent) setSelectedEvent(myEvent);
+			if (myEvent) {
+				setSelectedEvent(myEvent);
+				setEventOwner(myUser);
+			}
 		}
 
 		if (participateEvents) {
 			const participateEvent: false | SettlementEvent = findEventWithId(participateEvents, params.id);
-			if (participateEvent) setSelectedEvent(participateEvent);
+			if (participateEvent) {
+				setSelectedEvent(participateEvent);
+				getUser(participateEvent.owner);
+			}
 		}
 	}
 	function findEventWithId(events: SettlementEvent[], id: string): false | SettlementEvent {
@@ -43,7 +61,15 @@ export default function EventDashboard() {
 		return event;
 	}
 
-	function getUser(uid: string) {
+	async function getUser(uid: string) {
+		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
+			if (snapshot.exists()) {
+				setEventOwner(snapshot.val());
+			}
+		});
+	}
+
+	function getUsers(uid: string) {
 		const userQuery = query(ref(db, `users/${uid}`));
 		onValue(userQuery, (snapshot) => {
 			if (snapshot.exists()) {
@@ -54,43 +80,53 @@ export default function EventDashboard() {
 			}
 		});
 	}
-	// TODO: Make users visible to frontend
+
 	function handleUsersInEvent() {
-		console.log('lol');
+		console.log(selectedEvent);
 		selectedEvent?.users.map((userUid: string) => {
-			getUser(userUid);
+			getUsers(userUid);
 		});
 		console.log(usersInEvent);
 	}
 
 	useEffect(() => {
+		console.log('siemano');
 		if (auth.currentUser !== null) {
 			handleEvents();
-			if (usersInEvent.length == 0) {
-				handleUsersInEvent();
+			if (selectedEvent) {
+				if (usersInEvent.length == 0) {
+					handleUsersInEvent();
+				}
 			}
 		}
-	}, [myEvents, participateEvents, usersInEvent]);
+	}, [selectedEvent, myEvents, participateEvents, usersInEvent]);
 
-	if (selectedEvent === undefined) {
+	if (selectedEvent === undefined && !errorMessage) {
 		return <Loader size='big' />;
+	}
+
+	if (errorMessage !== false) {
+		console.log(errorMessage);
+		return <div>{errorMessage}</div>;
 	}
 
 	if (selectedEvent) {
 		return (
 			<div className='border-2 border-slate-700 p-6 rounded-2xl'>
-				<p>Event ID {selectedEvent.id}</p>
-				<p>Event Name {selectedEvent.name}</p>
-				<p>Owner {selectedEvent.owner}</p>
-				<div>
-					Users
-					<br />
+				<div className='flex justify-between items-center mb-6'>
+					<span className='font-bold text-2xl'>{selectedEvent.name}</span>
+					<img
+						className='rounded-full w-10 border border-slate-700'
+						src={eventOwner?.photoUrl}
+					/>
+				</div>
+				<div className='flex gap-2'>
 					{usersInEvent.map((user) => {
 						return (
 							<img
 								src={user.photoUrl}
 								alt=''
-								className='rounded-full'
+								className='rounded-full w-10'
 							/>
 						);
 					})}
@@ -99,5 +135,5 @@ export default function EventDashboard() {
 		);
 	}
 
-	return <div>Error occured</div>;
+	return <div>Error not found</div>;
 }

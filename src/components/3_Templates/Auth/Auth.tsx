@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import App from '../App/App';
 import { createNewUserInDB, isUserInDB } from '../../../services/firebase/users/auth';
 import Loader from '../../0_Atoms/Loader/Loader';
-import EventsProvider from '../EventsProvider/EventsProvider';
+import EventsProvider from '../DBProvider/DBProvider';
 
 export default function Auth() {
 	const navigate = useNavigate();

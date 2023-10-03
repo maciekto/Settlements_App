@@ -13,7 +13,7 @@ export default function ({ onClick, children, type }: Props) {
 
 	useEffect(() => {
 		if (type === 'CTA') {
-			setStyle('bg-slate-700 text-white');
+			setStyle('bg-gradient-to-r from-themeBlue to-themePink text-white');
 		}
 	}, []);
 
@@ -22,7 +22,7 @@ export default function ({ onClick, children, type }: Props) {
 			type='button'
 			onClick={onClick}
 			value={children}
-			className={`h-12 p-2 border-2 border-slate-700 rounded-2xl mt-4 mb-4 cursor-pointer w-full ${style} `}
+			className={`h-12 p-2 border-slate-700 rounded-2xl mt-4 mb-4 cursor-pointer w-full ${style} `}
 		/>
 	);
 }
