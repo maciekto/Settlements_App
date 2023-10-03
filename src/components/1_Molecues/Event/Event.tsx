@@ -7,9 +7,6 @@ interface Props {
 // TODO: Define what event needs to show here and in event page
 // ^ For now: date, name
 
-// TODO: Make Event page
-// ^ Need event id from object to create page DONE
-
 export default function Event({ event }: Props): JSX.Element {
 	const navigate = useNavigate();
 

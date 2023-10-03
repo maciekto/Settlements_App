@@ -5,7 +5,7 @@ import '../base/base.css';
 import Auth from '../3_Templates/Auth/Auth.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import LoginPage from './LoginPage/LoginPage.tsx';
-import MainPage from './Events/MainPage.tsx';
+import MainPage from './MainPage/MainPage.tsx';
 import EventCreate from './EventCreate/EventCreate.tsx';
 import EventDashboard from './EventDashboard/EventDashboard.tsx';
 

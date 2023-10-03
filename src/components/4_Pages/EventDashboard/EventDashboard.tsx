@@ -3,53 +3,76 @@
 
 // TODO: Get users information from database: displayName, photoUrl need to write getUser function in users.ts services. Map users and get each user inside loop
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { auth } from '../../../services/firebase/firebase';
-import { getEvents } from '../../../services/firebase/events';
+import { auth, db } from '../../../services/firebase/firebase';
 import Loader from '../../0_Atoms/Loader/Loader';
+import MyEventsContext from '../../context/MyEventsContext';
+import ParticipateEventsContext from '../../context/ParticipateEventsContext';
+import { equalTo, onValue, query, ref } from 'firebase/database';
 
 export default function EventDashboard() {
 	const params = useParams();
 
-	const [selectedEvent, setSelectedEvent] = useState<false | SettlementEvent>(false);
+	const myEvents = useContext(MyEventsContext);
+	const participateEvents = useContext(ParticipateEventsContext);
+
+	const [selectedEvent, setSelectedEvent] = useState<undefined | SettlementEvent>(undefined);
+	const [usersInEvent, setUsersInEvent] = useState<MyUser[]>([]);
 
 	// const myEvents: false | SettlementEvent[] = useContext(MyEventContext);
-	async function handleEvents(uid: string): Promise<void> {
-		const myEvents: SettlementEvent[] | false = await getEvents(uid, 'myEvents');
-		const participateEvents: SettlementEvent[] | false = await getEvents(uid, 'participateEvents');
+	function handleEvents(): void {
+		if (params.id === undefined) return;
 
-		const myEvent: false | SettlementEvent = findEventWithId(myEvents, params.id);
-		const participateEvent: false | SettlementEvent = findEventWithId(participateEvents, params.id);
-
-		if (myEvent !== false) {
-			setSelectedEvent(myEvent);
+		if (myEvents) {
+			const myEvent: false | SettlementEvent = findEventWithId(myEvents, params.id);
+			if (myEvent) setSelectedEvent(myEvent);
 		}
 
-		if (participateEvent !== false) {
-			setSelectedEvent(participateEvent);
+		if (participateEvents) {
+			const participateEvent: false | SettlementEvent = findEventWithId(participateEvents, params.id);
+			if (participateEvent) setSelectedEvent(participateEvent);
 		}
 	}
+	function findEventWithId(events: SettlementEvent[], id: string): false | SettlementEvent {
+		if (id === undefined) return false;
 
-	function findEventWithId(events: false | SettlementEvent[], id: string | undefined): false | SettlementEvent {
-		if (events !== false && id !== undefined) {
-			const event: SettlementEvent = events.filter((el: SettlementEvent) => (el.id === id ? el : null))[0];
-			if (event === undefined) {
-				return false;
+		const event: SettlementEvent = events.filter((el: SettlementEvent) => (el.id === id ? el : null))[0];
+		if (event === undefined) return false;
+
+		return event;
+	}
+
+	function getUser(uid: string) {
+		const userQuery = query(ref(db, `users/${uid}`));
+		onValue(userQuery, (snapshot) => {
+			if (snapshot.exists()) {
+				console.log(snapshot.val());
+				setUsersInEvent((prevValue: MyUser[]) => {
+					return [...prevValue, snapshot.val()];
+				});
 			}
-			return event;
-		}
-
-		return false;
+		});
+	}
+	// TODO: Make users visible to frontend
+	function handleUsersInEvent() {
+		console.log('lol');
+		selectedEvent?.users.map((userUid: string) => {
+			getUser(userUid);
+		});
+		console.log(usersInEvent);
 	}
 
 	useEffect(() => {
-		if (auth.currentUser != null) {
-			handleEvents(auth.currentUser.uid);
+		if (auth.currentUser !== null) {
+			handleEvents();
+			if (usersInEvent.length == 0) {
+				handleUsersInEvent();
+			}
 		}
-	}, []);
+	}, [myEvents, participateEvents, usersInEvent]);
 
-	if (selectedEvent === false) {
+	if (selectedEvent === undefined) {
 		return <Loader size='big' />;
 	}
 
@@ -62,7 +85,15 @@ export default function EventDashboard() {
 				<div>
 					Users
 					<br />
-					{selectedEvent.users.map((user) => user)}
+					{usersInEvent.map((user) => {
+						return (
+							<img
+								src={user.photoUrl}
+								alt=''
+								className='rounded-full'
+							/>
+						);
+					})}
 				</div>
 			</div>
 		);

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const ParticipateEventsContext = createContext<false | SettlementEvent[]>(false);
+const ParticipateEventsContext = createContext<undefined | SettlementEvent[]>(undefined);
 
 export default ParticipateEventsContext;

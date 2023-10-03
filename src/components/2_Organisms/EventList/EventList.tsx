@@ -5,13 +5,13 @@ import Loader from '../../0_Atoms/Loader/Loader';
 
 interface Props {
 	title: string;
-	events: SettlementEvent[] | false;
+	events: SettlementEvent[] | undefined;
 	buttonAddEvent: boolean;
 }
 
 export default function EventList({ title, events, buttonAddEvent }: Props): JSX.Element {
 	const renderEvents = () => {
-		if (events === false) {
+		if (events === undefined) {
 			return <Loader size='small' />;
 		}
 
