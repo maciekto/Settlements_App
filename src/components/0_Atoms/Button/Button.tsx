@@ -13,7 +13,7 @@ export default function ({ onClick, children, type }: Props) {
 
 	useEffect(() => {
 		if (type === 'CTA') {
-			setStyle('bg-gradient-to-r from-themeBlue to-themePink text-white');
+			setStyle('bg-themeBlue text-white');
 		}
 	}, []);
 

@@ -9,9 +9,8 @@ import { auth, db } from '../../../services/firebase/firebase';
 import Loader from '../../0_Atoms/Loader/Loader';
 import MyEventsContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { equalTo, onValue, query, ref } from 'firebase/database';
+import { onValue, query, ref } from 'firebase/database';
 import UserContext from '../../context/UserContext';
-import { setLogLevel } from 'firebase/app';
 
 export default function EventDashboard() {
 	const params = useParams();
@@ -73,7 +72,6 @@ export default function EventDashboard() {
 		const userQuery = query(ref(db, `users/${uid}`));
 		onValue(userQuery, (snapshot) => {
 			if (snapshot.exists()) {
-				console.log(snapshot.val());
 				setUsersInEvent((prevValue: MyUser[]) => {
 					return [...prevValue, snapshot.val()];
 				});
@@ -82,7 +80,6 @@ export default function EventDashboard() {
 	}
 
 	function handleUsersInEvent() {
-		console.log(selectedEvent);
 		selectedEvent?.users.map((userUid: string) => {
 			getUsers(userUid);
 		});
@@ -90,7 +87,6 @@ export default function EventDashboard() {
 	}
 
 	useEffect(() => {
-		console.log('siemano');
 		if (auth.currentUser !== null) {
 			handleEvents();
 			if (selectedEvent) {

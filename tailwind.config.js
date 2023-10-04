@@ -8,7 +8,7 @@ export default {
 				themeYellow: '#fbd786',
 				themeRed: '#f7797d',
 				themeBlue: '#114357',
-				themePink: '#F29492',
+				themePink: '#F8CDDA',
 			},
 			gridTemplateRows: {
 				AppTemplate: 'auto 1fr auto',

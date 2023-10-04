@@ -64,6 +64,7 @@ export default function DBProvider({ children }: Props) {
 	}
 
 	async function handleEvents(myUser: MyUser) {
+		console.log(myUser);
 		myUser.participateOfEvents.forEach(async (id: string): Promise<void> => {
 			getEvent(id, 'participateEvent');
 		});

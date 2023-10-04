@@ -13,7 +13,7 @@ export default function Nav() {
 	}
 
 	return (
-		<nav className='flex justify-between items-center bg-slate-700 text-white relative pl-6 pr-6 pt-4 pb-4 h-16'>
+		<nav className='flex justify-between items-center bg-themeBlue text-white relative pl-6 pr-6 pt-4 pb-4 h-16'>
 			<Link to='/'>Settlements</Link>
 			<MenuIcon handleMenu={handleMenu} />
 			<AsideMenu isMenuVisible={isMenuVisible} />

@@ -1,5 +1,5 @@
-import { get, ref } from 'firebase/database';
-import { db, dbRef } from '../firebase';
+// import { get, ref } from 'firebase/database';
+// import { db, dbRef } from '../firebase';
 
 // export async function getUser(userUid: string): Promise<MyUser | false> {
 // 	console.log('bang');
