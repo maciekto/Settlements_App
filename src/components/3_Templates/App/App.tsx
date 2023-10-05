@@ -8,7 +8,7 @@ export default function App() {
 		<main className='text-slate-700 w-96 grid h-screenIOs grid-rows-AppTemplate'>
 			<DBProvider>
 				<Nav />
-				<main className='p-6 w-full'>
+				<main className='pt-6 pb-6 w-full'>
 					<Outlet />
 				</main>
 			</DBProvider>

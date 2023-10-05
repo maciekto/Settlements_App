@@ -8,6 +8,7 @@ import LoginPage from './LoginPage/LoginPage.tsx';
 import MainPage from './MainPage/MainPage.tsx';
 import EventCreate from './EventCreate/EventCreate.tsx';
 import EventDashboard from './EventDashboard/EventDashboard.tsx';
+import Testing from './Testing/Testing.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <LoginPage />,
+	},
+	{
+		path: '/testing',
+		element: <Testing />,
 	},
 ]);
 

@@ -2,7 +2,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '../../0_Atoms/Input/Input';
 import { useEffect, useState } from 'react';
-import { endAt, equalTo, onValue, orderByChild, query, ref, startAfter, startAt } from 'firebase/database';
+import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { db } from '../../../services/firebase/firebase';
 
 type Inputs = {
@@ -10,13 +10,13 @@ type Inputs = {
 	Users: string;
 };
 
+// TODO: Create user add component
 export default function EventCreate() {
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
-		setValue,
 	} = useForm<Inputs>();
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 

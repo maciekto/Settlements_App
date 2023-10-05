@@ -33,16 +33,17 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 	}
 
 	return (
-		<div className='w-full'>
-			<p>{title}</p>
+		<div className='w-full p-6 rounded-2xl shadow-sm border-2 border-gray-50'>
+			<p className='font-bold text-xl'>{title}</p>
+
+			{renderEvents()}
 			{buttonAddEvent ? (
 				<Button
 					onClick={createEvent}
-					type='CTA'>
+					variant='cta'>
 					Add Event
 				</Button>
 			) : null}
-			{renderEvents()}
 		</div>
 	);
 }

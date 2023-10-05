@@ -54,7 +54,7 @@ export default function LoginPage() {
 				You are logged out <br />
 				<Button
 					onClick={redirectToGoogle}
-					type='CTA'>
+					variant='cta'>
 					Sign In With Google
 				</Button>
 			</div>

@@ -18,7 +18,7 @@ export default function Event({ event }: Props): JSX.Element {
 		<div
 			onClick={handleGoToEventDashboard}
 			key='bang'
-			className='border-2 border-slate-700 p-4 rounded-2xl mt-2 mb-2 cursor-pointer bg-white shadow-lg shadow-white'>
+			className='border-2 border-themeBlue p-4 pl-6 pr-6 rounded-2xl mt-2 mb-2 cursor-pointer bg-white'>
 			<p className='text-sm text-slate-400'>{event.date}</p>
 			<p className='font-bold text-lg'> {event.name}</p>
 		</div>
