@@ -5,7 +5,7 @@ import DBProvider from '../DBProvider/DBProvider';
 
 export default function App() {
 	return (
-		<main className='text-slate-700 w-96 grid h-screenIOs grid-rows-AppTemplate'>
+		<main className='text-slate-700 w-96 grid h-screenIOs grid-rows-AppTemplate pr-4 pl-4'>
 			<DBProvider>
 				<Nav />
 				<main className='pt-6 pb-6 w-full'>
