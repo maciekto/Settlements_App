@@ -47,7 +47,7 @@ export default function AsideMenu({ isMenuVisible }: Props) {
 				<br />
 				<br />
 			</div>
-			<div className='text-slate-700 w-full p-6 flex flex-col items-end bg-white rounded-2xl border-2 border-slate-50 shadow-md'>
+			<div className='text-slate-700 w-full p-6 flex flex-col items-end bg-white rounded-2xl border-2 border-slate-700 shadow-md'>
 				<p>Account</p>
 				<p>text2</p>
 				<Button

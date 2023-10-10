@@ -11,7 +11,7 @@ export default function MainPage() {
 	useEffect(() => {}, []);
 
 	return (
-		<>
+		<div className='h-full'>
 			<EventList
 				buttonAddEvent={true}
 				title='Your events'
@@ -23,6 +23,6 @@ export default function MainPage() {
 				title='Events you participate in'
 				events={participateEvents}
 			/>
-		</>
+		</div>
 	);
 }

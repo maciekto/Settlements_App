@@ -4,4 +4,5 @@ interface MyUser {
 	email: string;
 	ownerOfEvents: string[];
 	participateOfEvents: string[];
+	uid: string;
 }

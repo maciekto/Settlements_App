@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../services/firebase/firebase';
 import MyEventContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { onValue, ref } from 'firebase/database';
+import { onValue, query, ref } from 'firebase/database';
 import UserContext from '../../context/UserContext';
+import AllUsersContext from '../../context/AllUsersContext';
 
 interface Props {
 	children: JSX.Element[] | JSX.Element;
@@ -14,11 +15,30 @@ export default function DBProvider({ children }: Props) {
 	const [myEvents, setMyEvents] = useState<SettlementEvent[] | undefined>();
 	const [participateEvents, setParticipateEvents] = useState<SettlementEvent[] | undefined>();
 	const [myUser, setMyUser] = useState<MyUser | undefined>(undefined);
+	const [allUsers, setAllUsers] = useState<MyUser[] | undefined>(undefined);
 
 	async function getUser(uid: string) {
 		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
 			if (snapshot.exists()) {
 				setMyUser(snapshot.val());
+			}
+		});
+	}
+
+	async function getAllUsers() {
+		const userQuery = query(ref(db, 'users/'));
+		await onValue(userQuery, (snapshot) => {
+			if (snapshot.exists()) {
+				let test: [string, MyUser][] = Object.entries(snapshot.val());
+				const userData = test.map((user) => {
+					return {
+						...user[1],
+						uid: user[0],
+					};
+				});
+				setAllUsers(userData);
+			} else {
+				setAllUsers(undefined);
 			}
 		});
 	}
@@ -64,7 +84,6 @@ export default function DBProvider({ children }: Props) {
 	}
 
 	async function handleEvents(myUser: MyUser) {
-		console.log(myUser);
 		myUser.participateOfEvents.forEach(async (id: string): Promise<void> => {
 			getEvent(id, 'participateEvent');
 		});
@@ -79,13 +98,16 @@ export default function DBProvider({ children }: Props) {
 		if (auth.currentUser != null) {
 			if (myUser === undefined) getUser(auth.currentUser.uid);
 			if (myUser !== undefined) handleEvents(myUser);
+			getAllUsers();
 		}
 	}, [myUser]);
 	return (
 		<MyEventContext.Provider value={myEvents}>
 			<ParticipateEventsContext.Provider value={participateEvents}>
 				<UserContext.Provider value={myUser}>
-					<>{children}</>
+					<AllUsersContext.Provider value={allUsers}>
+						<>{children}</>
+					</AllUsersContext.Provider>
 				</UserContext.Provider>
 			</ParticipateEventsContext.Provider>
 		</MyEventContext.Provider>

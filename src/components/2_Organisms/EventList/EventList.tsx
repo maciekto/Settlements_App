@@ -33,7 +33,7 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 	}
 
 	return (
-		<div className='w-full p-6 rounded-2xl shadow-sm border-2 border-gray-50'>
+		<div className='w-full p-6 rounded-2xl shadow-sm border-2 border-slate-700'>
 			<p className='font-bold text-xl'>{title}</p>
 
 			{renderEvents()}
