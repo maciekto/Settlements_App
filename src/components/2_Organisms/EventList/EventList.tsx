@@ -14,7 +14,6 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 		if (events === undefined) {
 			return <Loader size='small' />;
 		}
-
 		if (events) {
 			return events.map((event: SettlementEvent): JSX.Element => {
 				return (

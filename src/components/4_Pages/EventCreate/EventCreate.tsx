@@ -2,9 +2,11 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Input from '../../0_Atoms/Input/Input';
 import { useContext, useEffect, useState } from 'react';
-import { equalTo, onValue, orderByChild, query, ref, set } from 'firebase/database';
+import { equalTo, onValue, orderByChild, push, query, ref, set, update } from 'firebase/database';
 import { auth, db } from '../../../services/firebase/firebase';
 import AllUsersContext from '../../context/AllUsersContext';
+import UserContext from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 type Inputs = {
 	name: string;
@@ -15,7 +17,10 @@ type Inputs = {
 export default function EventCreate() {
 	const [filteredUsers, setFilteredUsers] = useState<MyUser[] | undefined>(undefined);
 	const allUsers = useContext(AllUsersContext);
+	const myUser = useContext(UserContext);
 	const [selectedUsers, setSelectedUsers] = useState<string[] | undefined>(undefined);
+
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -58,52 +63,78 @@ export default function EventCreate() {
 			owner: auth.currentUser.uid,
 			users: {},
 		};
-		selectedUsers?.map((userUid) => {
-			Object.defineProperty(eventObject.users, userUid, {
-				value: userUid,
-			});
-		});
 
-		console.log(eventObject);
+		if (selectedUsers !== undefined) {
+			if (selectedUsers.length > 0) {
+				selectedUsers?.map((userUid) => {
+					Object.defineProperty(eventObject.users, userUid, {
+						value: userUid,
+						enumerable: true,
+					});
+					updateUserData(userUid, eventId);
+				});
+			}
+		}
+
+		set(ref(db, 'events/' + eventId), eventObject);
+		if (myUser !== undefined) {
+			const lengthOfUserOwnerArray = myUser?.ownerOfEvents.length;
+			let targetObject = {};
+			Object.defineProperty(targetObject, lengthOfUserOwnerArray, { value: eventId, enumerable: true });
+			update(ref(db, `users/${auth.currentUser.uid}/ownerOfEvents`), targetObject);
+		}
+
+		navigate('/');
 	};
 	const users = watch('users');
 
-	function writeEventData(eventId: string) {
-		set(ref(db, 'users/' + eventId), {
-			username: 'name',
-			email: 'email',
-			profile_picture: 'imageUrl',
-		});
+	function updateUserData(uid: string, eventId: string) {
+		if (allUsers === undefined) return;
+
+		const user: MyUser[] = allUsers.filter((user) => user.uid === uid);
+		const lengthOfTargetArray = user[0].participateOfEvents.length;
+
+		const targetObject = {};
+
+		Object.defineProperty(targetObject, lengthOfTargetArray, { value: eventId, enumerable: true });
+		console.log(targetObject);
+		update(ref(db, `users/${uid}/participateOfEvents/`), targetObject);
 	}
 
-	function filterAllUsers(email: string) {
-		if (email === undefined) {
+	function filterAllUsers(emailInput: string) {
+		if (emailInput === undefined) {
 			setFilteredUsers(undefined);
 			return;
 		}
-		if (email.length > 0) {
-			const filteredUsers: MyUser[] | undefined = allUsers?.filter((user) => {
-				console.log(selectedUsers);
-				const isIncluded = selectedUsers?.filter((useruid) => {
-					if (useruid === user.uid) {
-						return true;
-					} else {
-						return false;
-					}
-				});
-				console.log(isIncluded);
-
-				if (user.email.includes(email) && (isIncluded === undefined || isIncluded?.length === 0)) {
-					return true;
-				} else {
-					return null;
-				}
-			});
-			setFilteredUsers(filteredUsers);
+		if (emailInput.length === 0) {
+			setFilteredUsers(undefined);
+			return;
 		}
 
-		if (email.length === 0) {
-			setFilteredUsers(undefined);
+		if (emailInput.length > 0) {
+			// Filter all users with current email value, and check if user is already selected. If yes, do not include user in the results.
+			const filteredUsers: MyUser[] | undefined = allUsers?.filter((user) => {
+				// Check if selectedUsers array is empty
+				if (selectedUsers !== undefined) {
+					const isUserAlreadySelected: string[] = selectedUsers.filter((useruid) => {
+						if (useruid === user.uid) {
+							return true;
+						}
+						return false;
+					});
+					console.log(isUserAlreadySelected);
+					// Length of the array is 0 if user is not in selectedUsers array
+					if (isUserAlreadySelected.length !== 0) return null;
+				}
+
+				// Check if user includes current email input value
+				const isInputEmailIncluded = user.email.includes(emailInput);
+				console.log(user.displayName + emailInput);
+
+				if (isInputEmailIncluded === false) return null;
+				if (isInputEmailIncluded === true) return true;
+			});
+			setFilteredUsers(filteredUsers);
 		}
 	}
 

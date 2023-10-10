@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../services/firebase/firebase';
 import MyEventContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { onValue, query, ref } from 'firebase/database';
+import { onValue, query, ref, update } from 'firebase/database';
 import UserContext from '../../context/UserContext';
 import AllUsersContext from '../../context/AllUsersContext';
 
@@ -20,7 +20,11 @@ export default function DBProvider({ children }: Props) {
 	async function getUser(uid: string) {
 		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
 			if (snapshot.exists()) {
-				setMyUser(snapshot.val());
+				const user = {
+					...snapshot.val(),
+					uid: uid,
+				};
+				setMyUser(user);
 			}
 		});
 	}
@@ -48,7 +52,11 @@ export default function DBProvider({ children }: Props) {
 			if (snapshot.exists()) {
 				const eventObject: SettlementEvent = snapshot.val();
 				eventObject.id = id;
-				eventObject.users = Object.keys(eventObject.users);
+				if (eventObject.users !== undefined) {
+					eventObject.users = Object.keys(eventObject.users);
+				} else {
+					eventObject.users = [];
+				}
 
 				if (type === 'participateEvent') {
 					setParticipateEvents((prevValue: SettlementEvent[] | undefined) => {
@@ -68,15 +76,15 @@ export default function DBProvider({ children }: Props) {
 					}
 
 					if (prevValue !== undefined) {
-						const updatedObject = prevValue.map((el) => {
-							if (el.id === id) {
-								return eventObject;
+						const updatedObject = prevValue.filter((ev) => {
+							if (ev.id === id) {
+								return undefined;
 							} else {
-								return el;
+								return ev;
 							}
 						});
 
-						return updatedObject;
+						return [...updatedObject, eventObject];
 					}
 				}
 			}
