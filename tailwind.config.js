@@ -4,14 +4,17 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				themeGreen: '#c6ffdd',
-				themeYellow: '#fbd786',
-				themeRed: '#f7797d',
-				themeBlue: '#114357',
-				themePink: '#F8CDDA',
+				themeSecondary: '#385779', // LightBlue
+				themePrimary: '#283e56', // Blue/DarkBlue
+				themeAccent: '#fef4e8', // Beige
+				themeBlack: '#182533',
+				themeGray: '#e6e6e6',
+				themeWhite: '#ffffff',
+				themeDanger: '#ff8783', // Red
 			},
 			gridTemplateRows: {
 				AppTemplate: 'auto 1fr auto',
+				EventFormTemplate: 'auto auto 1fr',
 			},
 			height: {
 				screenIOs: '100svh',

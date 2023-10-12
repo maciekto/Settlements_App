@@ -31,6 +31,12 @@ export async function createNewUserInDB({ uid, displayName, email, photoURL }: U
 		displayName: displayName,
 		email: email,
 		photoUrl: photoURL,
+		participateOfEvents: {
+			0: 'Initial',
+		},
+		ownerOfEvents: {
+			0: 'Initial',
+		},
 	})
 		.then(() => {
 			console.log('createNewUserInDB - Data saved successfully');

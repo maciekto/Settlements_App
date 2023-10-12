@@ -9,6 +9,7 @@ import MainPage from './MainPage/MainPage.tsx';
 import EventCreate from './EventCreate/EventCreate.tsx';
 import EventDashboard from './EventDashboard/EventDashboard.tsx';
 import Testing from './Testing/Testing.tsx';
+import EventEdit from './EventEdit/EventEdit.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
 			{
 				path: '/event/:id',
 				element: <EventDashboard />,
+			},
+			{
+				path: '/event/:id/edit',
+				element: <EventEdit />,
 			},
 			{
 				path: '/events/create',

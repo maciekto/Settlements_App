@@ -4,16 +4,20 @@
 // TODO: Get users information from database: displayName, photoUrl need to write getUser function in users.ts services. Map users and get each user inside loop
 
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { auth, db } from '../../../services/firebase/firebase';
 import Loader from '../../0_Atoms/Loader/Loader';
 import MyEventsContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
 import { onValue, query, ref } from 'firebase/database';
 import UserContext from '../../context/UserContext';
+import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
+import PillsSection from '../../1_Molecues/PillsSection/PillsSection';
+import Pill from '../../0_Atoms/Pill/Pill';
 
 export default function EventDashboard() {
 	const params = useParams();
+	const navigate = useNavigate();
 
 	const myEvents = useContext(MyEventsContext);
 	const participateEvents = useContext(ParticipateEventsContext);
@@ -86,6 +90,10 @@ export default function EventDashboard() {
 		console.log(usersInEvent);
 	}
 
+	function editEvent() {
+		navigate(`/event/${params.id}/edit`);
+	}
+
 	useEffect(() => {
 		if (auth.currentUser !== null) {
 			handleEvents();
@@ -108,25 +116,28 @@ export default function EventDashboard() {
 
 	if (selectedEvent) {
 		return (
-			<div className='border-2 border-slate-700 p-6 rounded-2xl'>
+			<div className='border-2 border-themePrimary p-6 rounded-2xl h-full'>
 				<div className='flex justify-between items-center mb-6'>
 					<span className='font-bold text-2xl'>{selectedEvent.name}</span>
-					<img
-						className='rounded-full w-10 border border-slate-700'
-						src={eventOwner?.photoUrl}
+					<UserAvatar
+						imageUrl={eventOwner?.photoUrl}
+						size='medium'
 					/>
 				</div>
 				<div className='flex gap-2'>
 					{usersInEvent.map((user) => {
 						return (
-							<img
-								src={user.photoUrl}
-								alt=''
-								className='rounded-full w-10'
+							<UserAvatar
+								imageUrl={user.photoUrl}
+								size='medium'
 							/>
 						);
 					})}
 				</div>
+				<PillsSection>
+					<Pill onClick={editEvent}>Edit Event</Pill>
+					<></>
+				</PillsSection>
 			</div>
 		);
 	}

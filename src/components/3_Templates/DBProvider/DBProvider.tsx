@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../services/firebase/firebase';
 import MyEventContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { onValue, query, ref, update } from 'firebase/database';
+import { onValue, query, ref } from 'firebase/database';
 import UserContext from '../../context/UserContext';
 import AllUsersContext from '../../context/AllUsersContext';
 

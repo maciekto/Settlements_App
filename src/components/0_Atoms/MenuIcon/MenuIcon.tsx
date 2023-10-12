@@ -2,6 +2,7 @@
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useState } from 'react';
 import UserContext from '../../context/UserContext';
+import UserAvatar from '../UserAvatar/UserAvatar';
 
 interface Props {
 	handleMenu: () => void;
@@ -10,6 +11,7 @@ interface Props {
 export default function MenuIcon({ handleMenu }: Props) {
 	const [isMenuIconAnimation, setIsMenuIconAnimation] = useState(false);
 	const myUser = useContext(UserContext);
+	if (myUser === undefined) return null;
 
 	function handleClickOnIcon() {
 		handleMenu();
@@ -23,10 +25,7 @@ export default function MenuIcon({ handleMenu }: Props) {
 			className={`${isMenuIconAnimation ? 'animate-pulse' : null} z-20 text-2xl grid place-items-center w-8 cursor-pointer`}
 			onClick={handleClickOnIcon}>
 			{/*  */}
-			<img
-				className='rounded-full border border-slate-700 w-full'
-				src={myUser?.photoUrl}
-			/>
+			<UserAvatar imageUrl={myUser?.photoUrl} />
 			{/* <FontAwesomeIcon icon={faEllipsisVertical} /> */}
 		</div>
 	);

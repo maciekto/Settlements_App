@@ -13,7 +13,7 @@ export default function Nav() {
 	}
 
 	return (
-		<nav className='flex justify-between items-center bg-themeBlue text-white relative pl-6 pr-6 pt-4 pb-4 h-16 shadow-md rounded-2xl mt-4'>
+		<nav className='flex justify-between items-center bg-themePrimary text-themeWhite relative pl-6 pr-6 pt-4 pb-4 h-16 shadow-md rounded-2xl mt-4'>
 			<Link to='/'>Home</Link>
 			<MenuIcon handleMenu={handleMenu} />
 			<AsideMenu isMenuVisible={isMenuVisible} />
