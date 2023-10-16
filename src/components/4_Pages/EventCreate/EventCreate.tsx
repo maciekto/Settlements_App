@@ -5,7 +5,6 @@ export default function EventCreate() {
 	return (
 		<div className='bg-themeWhite rounded-2xl border-2 border-themePrimary shadow-md p-4 h-full'>
 			{/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-			<p className='text-lg font-bold pb-2'>Create new Event</p>
 			<EventForm type='create' />
 		</div>
 	);

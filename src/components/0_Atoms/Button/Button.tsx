@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 interface Props {
 	onClick?: any;
 	children: string;
-	variant: 'cta' | 'base' | 'outlined';
+	variant: 'cta' | 'base' | 'outlined' | 'danger';
 	type?: 'button' | 'submit';
 }
 
@@ -15,6 +15,7 @@ export default function Button({ onClick, children, variant, type = 'button' }: 
 		cta: 'bg-themePrimary text-themeWhite',
 		base: 'bg-themeWhite text-themePrimary border border-themeGray',
 		outlined: 'bg-themeWhite text-themePrimary',
+		danger: 'bg-themeDanger text-themeWhite',
 	};
 
 	// const sizes = {

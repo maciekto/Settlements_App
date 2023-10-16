@@ -10,6 +10,7 @@ import EventCreate from './EventCreate/EventCreate.tsx';
 import EventDashboard from './EventDashboard/EventDashboard.tsx';
 import Testing from './Testing/Testing.tsx';
 import EventEdit from './EventEdit/EventEdit.tsx';
+import EventDelete from './EventDelete/EventDelete.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
 				element: <EventEdit />,
 			},
 			{
-				path: '/events/create',
+				path: '/event/:id/delete',
+				element: <EventDelete />,
+			},
+			{
+				path: '/event/create',
 				element: <EventCreate />,
 			},
 		],

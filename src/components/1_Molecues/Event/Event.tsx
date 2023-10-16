@@ -19,8 +19,8 @@ export default function Event({ event }: Props): JSX.Element {
 			onClick={handleGoToEventDashboard}
 			key='bang'
 			className='border-2 border-themePrimary p-4 pl-6 pr-6 rounded-2xl mt-2 mb-2 cursor-pointer bg-themeWhite hover:scale-105 transition-transform duration-200'>
-			<p className='text-sm text-themePrimary opacity-40'>{event.date}</p>
-			<p className='font-bold text-lg'> {event.name}</p>
+			<div className='text-sm text-themePrimary opacity-40'>{event.date}</div>
+			<div className='font-bold text-lg'> {event.name}</div>
 		</div>
 	);
 }

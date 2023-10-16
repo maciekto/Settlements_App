@@ -5,7 +5,7 @@ import { ref, set, update } from 'firebase/database';
 import { db } from '../../../services/firebase/firebase';
 import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PickUser from '../../1_Molecues/PickUser/PickUser';
 import { eventId, year, month, day } from '../../utilities/generateEventId';
 import Button from '../../0_Atoms/Button/Button';
@@ -17,7 +17,7 @@ type Inputs = {
 
 interface Props {
 	type: 'create' | 'edit';
-	currentEvent?: SettlementEvent | undefined;
+	currentEvent?: SettlementEvent;
 }
 
 export default function EventForm({ type, currentEvent }: Props) {
@@ -119,13 +119,10 @@ export default function EventForm({ type, currentEvent }: Props) {
 		});
 
 		newUsers?.forEach((userUid) => {
-			// TODO: Write query to database adding event id to participate events in user object
-
 			allUsers?.find((user) => {
 				if (user.uid === userUid) {
 					let newParticipateOfEventsArray = user.participateOfEvents;
 					newParticipateOfEventsArray.push(currentEvent.id);
-					console.log(newParticipateOfEventsArray);
 					const participateOfEventsObject = {};
 					newParticipateOfEventsArray.forEach((evId, index) => {
 						Object.defineProperty(participateOfEventsObject, index, { value: evId, enumerable: true });
@@ -185,6 +182,10 @@ export default function EventForm({ type, currentEvent }: Props) {
 		update(ref(db, `users/${uid}/participateOfEvents/`), targetObject);
 	}
 
+	function handleDeleteButton() {
+		navigate(`/event/${currentEvent?.id}/delete`);
+	}
+
 	useEffect(() => {
 		if (type === 'edit') {
 			if (currentEvent !== undefined) {
@@ -198,6 +199,9 @@ export default function EventForm({ type, currentEvent }: Props) {
 			onSubmit={handleSubmit(onSubmit)}
 			className='grid h-full grid-rows-EventFormTemplate'>
 			{/* register your input into the hook by invoking the "register" function */}
+			<h1 className='mt-2 mb-2 font-bold text-xl'>
+				{type === 'create' ? 'Create' : null} {type === 'edit' ? 'Edit' : null} Event
+			</h1>
 			<label>
 				<Input
 					type='text'
@@ -224,12 +228,20 @@ export default function EventForm({ type, currentEvent }: Props) {
 					selectedUsers={selectedUsers}
 				/>
 			</label>
-			<div className='self-end'>
+			<div className='self-end flex gap-4'>
 				<Button
 					variant='outlined'
 					type='submit'>
 					Submit
 				</Button>
+				{type === 'edit' ? (
+					<Button
+						variant='danger'
+						onClick={handleDeleteButton}
+						type='button'>
+						Delete event
+					</Button>
+				) : null}
 			</div>
 		</form>
 	);

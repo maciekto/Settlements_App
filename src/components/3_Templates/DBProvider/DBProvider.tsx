@@ -6,16 +6,20 @@ import ParticipateEventsContext from '../../context/ParticipateEventsContext';
 import { onValue, query, ref } from 'firebase/database';
 import UserContext from '../../context/UserContext';
 import AllUsersContext from '../../context/AllUsersContext';
+import { defaultMyUser } from '../../utilities/defaultUser';
+import { defaultEvent } from '../../utilities/defaultEvent';
 
 interface Props {
 	children: JSX.Element[] | JSX.Element;
 }
 
 export default function DBProvider({ children }: Props) {
-	const [myEvents, setMyEvents] = useState<SettlementEvent[] | undefined>();
-	const [participateEvents, setParticipateEvents] = useState<SettlementEvent[] | undefined>();
-	const [myUser, setMyUser] = useState<MyUser | undefined>(undefined);
-	const [allUsers, setAllUsers] = useState<MyUser[] | undefined>(undefined);
+	const [myEvents, setMyEvents] = useState<SettlementEvent[]>([defaultEvent]);
+	const [participateEvents, setParticipateEvents] = useState<SettlementEvent[]>([defaultEvent]);
+	const [myUser, setMyUser] = useState<MyUser>(defaultMyUser);
+	const [allUsers, setAllUsers] = useState<MyUser[]>([defaultMyUser]);
+
+	const url = window.location.href;
 
 	async function getUser(uid: string) {
 		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
@@ -42,7 +46,7 @@ export default function DBProvider({ children }: Props) {
 				});
 				setAllUsers(userData);
 			} else {
-				setAllUsers(undefined);
+				setAllUsers([defaultMyUser]);
 			}
 		});
 	}
@@ -59,33 +63,37 @@ export default function DBProvider({ children }: Props) {
 				}
 
 				if (type === 'participateEvent') {
-					setParticipateEvents((prevValue: SettlementEvent[] | undefined) => {
+					setParticipateEvents((prevValue: SettlementEvent[]) => {
 						return modifyEvent(prevValue, eventObject);
 					});
 				}
 
 				if (type === 'ownerEvent') {
-					setMyEvents((prevValue: SettlementEvent[] | undefined) => {
+					setMyEvents((prevValue: SettlementEvent[]) => {
 						return modifyEvent(prevValue, eventObject);
 					});
 				}
 
-				function modifyEvent(prevValue: SettlementEvent[] | undefined, eventObject: SettlementEvent): SettlementEvent[] | undefined {
-					if (prevValue === undefined) {
+				function modifyEvent(prevValue: SettlementEvent[], eventObject: SettlementEvent): SettlementEvent[] {
+					console.log(eventObject);
+					if (prevValue[0] === defaultEvent) {
 						return [eventObject];
 					}
 
-					if (prevValue !== undefined) {
+					if (prevValue[0] !== defaultEvent) {
 						const updatedObject = prevValue.filter((ev) => {
 							if (ev.id === id) {
-								return undefined;
+								return null;
 							} else {
 								return ev;
 							}
 						});
+						console.log(updatedObject);
 
 						return [...updatedObject, eventObject];
 					}
+
+					return [defaultEvent];
 				}
 			}
 		});
@@ -98,14 +106,17 @@ export default function DBProvider({ children }: Props) {
 
 		// Map my Events
 		myUser.ownerOfEvents.forEach(async (id: string): Promise<void> => {
+			console.log(id);
 			getEvent(id, 'ownerEvent');
 		});
 	}
 
 	useEffect(() => {
 		if (auth.currentUser != null) {
-			if (myUser === undefined) getUser(auth.currentUser.uid);
-			if (myUser !== undefined) handleEvents(myUser);
+			setMyEvents([defaultEvent]);
+			setParticipateEvents([defaultEvent]);
+			if (myUser.uid === 'defaultUID') getUser(auth.currentUser.uid);
+			if (myUser.uid !== 'defaultUID') handleEvents(myUser);
 			getAllUsers();
 		}
 	}, [myUser]);

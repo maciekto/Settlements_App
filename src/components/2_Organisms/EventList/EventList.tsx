@@ -28,7 +28,7 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 
 	const navigate = useNavigate();
 	function createEvent(): void {
-		navigate('/events/create');
+		navigate('/event/create');
 	}
 
 	return (

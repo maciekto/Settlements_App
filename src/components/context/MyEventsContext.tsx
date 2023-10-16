@@ -1,5 +1,6 @@
 import { createContext } from 'react';
+import { defaultEvent } from '../utilities/defaultEvent';
 
-const MyEventContext = createContext<undefined | SettlementEvent[]>(undefined);
+const MyEventContext = createContext<SettlementEvent[]>([defaultEvent]);
 
 export default MyEventContext;

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import EventForm from '../../2_Organisms/EventForm/EventForm';
+import EventDeleteForm from '../../2_Organisms/EventDeleteForm/EventDeleteForm';
 import MyEventContext from '../../context/MyEventsContext';
 import ParticipateEventsContext from '../../context/ParticipateEventsContext';
 import { defaultEvent } from '../../utilities/defaultEvent';
+import { useParams } from 'react-router-dom';
 
-export default function EventEdit() {
+export default function EventDelete() {
 	const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);
 	const myEvents = useContext(MyEventContext);
 	const participateEvents = useContext(ParticipateEventsContext);
@@ -40,15 +40,9 @@ export default function EventEdit() {
 	useEffect(() => {
 		getCurrentEvent();
 	}, [currentEvent, myEvents, participateEvents]);
-
 	return (
-		<div className='bg-themeWhite rounded-2xl border-2 border-themePrimary shadow-md p-4 h-full'>
-			{/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-			{/* <p className='text-lg font-bold pb-2'>Edit Event</p> */}
-			<EventForm
-				type='edit'
-				currentEvent={currentEvent}
-			/>
+		<div>
+			<EventDeleteForm currentEvent={currentEvent} />
 		</div>
 	);
 }
