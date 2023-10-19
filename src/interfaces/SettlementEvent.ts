@@ -6,10 +6,4 @@ interface SettlementEvent {
 	users: string[];
 }
 
-const defaultEvent = {
-	id: 'defaultID',
-	name: 'defaultName',
-	owner: 'defaultUID',
-	date: '25-01-2034',
-	users: ['defaultUID'],
-};
+

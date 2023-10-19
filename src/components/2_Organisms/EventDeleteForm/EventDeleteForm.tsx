@@ -33,6 +33,7 @@ export default function EventDeleteForm({ currentEvent }: Props) {
 		if (currentEvent.id === data.eventName) {
 			// Update ownerOfEvent
 			const indexOfEvent = myUser.ownerOfEvents.indexOf(data.eventName);
+			console.log(indexOfEvent);
 			const ownerArrayObject = {};
 			Object.defineProperty(ownerArrayObject, indexOfEvent, { value: null, enumerable: true });
 			update(ref(db, `users/${myUser.uid}/ownerOfEvents/`), ownerArrayObject);
@@ -75,7 +76,7 @@ export default function EventDeleteForm({ currentEvent }: Props) {
 					defaultValue=''
 					register={register('eventName', { required: true })}
 					placeholder={'Event id'}
-					variant={errors.eventName ? 'danger' : 'base'}
+					variant={errors.eventName ? 'danger' : 'outline'}
 				/>
 				{errors.eventName && <span className='text-themeDanger'>This field is required</span>}
 			</label>

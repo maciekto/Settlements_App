@@ -3,9 +3,10 @@ import userIconDefault from '../../../assets/userIconDefault.jpg';
 interface Props {
 	imageUrl: string | undefined;
 	size?: 'small' | 'medium' | 'large';
+	onClick?: () => void;
 }
 
-export default function UserAvatar({ imageUrl, size = 'small' }: Props) {
+export default function UserAvatar({ imageUrl, size = 'small', onClick }: Props) {
 	const [sizeStyles, setSizeStyles] = useState<string | null>(null);
 	const sizes = {
 		small: 'w-8',
@@ -19,6 +20,7 @@ export default function UserAvatar({ imageUrl, size = 'small' }: Props) {
 
 	return (
 		<img
+			onClick={onClick}
 			className={`${sizeStyles} rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform duration-200`}
 			src={imageUrl ? imageUrl : userIconDefault}
 		/>

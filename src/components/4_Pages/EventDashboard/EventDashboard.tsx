@@ -1,10 +1,8 @@
 // TODO: Make logic for authentication (do not show event to user if he is not a member or the owner)
 // ^ Need to get events from database only for the owner or the member (not downloading all the events and then filter)
 
-// TODO: Get users information from database: displayName, photoUrl need to write getUser function in users.ts services. Map users and get each user inside loop
-
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { auth, db } from '../../../services/firebase/firebase';
 import Loader from '../../0_Atoms/Loader/Loader';
 import MyEventsContext from '../../context/MyEventsContext';
@@ -14,6 +12,8 @@ import UserContext from '../../context/UserContext';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
 import PillsSection from '../../1_Molecues/PillsSection/PillsSection';
 import Pill from '../../0_Atoms/Pill/Pill';
+import EventPayments from '../EventPayments/EventPayments';
+import Button from '../../0_Atoms/Button/Button';
 
 export default function EventDashboard() {
 	const params = useParams();
@@ -116,14 +116,15 @@ export default function EventDashboard() {
 
 	if (selectedEvent) {
 		return (
-			<div className='border-2 border-themePrimary p-6 rounded-2xl h-full'>
+			<div className='h-full'>
 				<div className='flex justify-between items-center mb-6'>
-					<span className='font-bold text-2xl'>{selectedEvent.name}</span>
+					<span className='font-bold text-xl'>{selectedEvent.name}</span>
 					<UserAvatar
 						imageUrl={eventOwner?.photoUrl}
 						size='medium'
 					/>
 				</div>
+
 				<div className='flex gap-2'>
 					{usersInEvent.map((user) => {
 						return (
@@ -135,9 +136,24 @@ export default function EventDashboard() {
 					})}
 				</div>
 				<PillsSection>
+					<Pill
+						onClick={() => {
+							navigate(`/event/${params.id}/`);
+						}}>
+						Payments
+					</Pill>
+					<Pill
+						onClick={() => {
+							navigate(`/event/${params.id}/settlement`);
+						}}>
+						Set
+					</Pill>
+					
 					<Pill onClick={editEvent}>Edit Event</Pill>
+
 					<></>
 				</PillsSection>
+				<Outlet></Outlet>
 			</div>
 		);
 	}

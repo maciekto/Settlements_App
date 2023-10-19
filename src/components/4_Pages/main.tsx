@@ -11,6 +11,8 @@ import EventDashboard from './EventDashboard/EventDashboard.tsx';
 import Testing from './Testing/Testing.tsx';
 import EventEdit from './EventEdit/EventEdit.tsx';
 import EventDelete from './EventDelete/EventDelete.tsx';
+import EventPayments from './EventPayments/EventPayments.tsx';
+import PaymentCreate from './PaymentCreate/PaymentCreate.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -25,6 +27,12 @@ const router = createBrowserRouter([
 			{
 				path: '/event/:id',
 				element: <EventDashboard />,
+				children: [
+					{
+						path: '/event/:id/',
+						element: <EventPayments />,
+					},
+				],
 			},
 			{
 				path: '/event/:id/edit',
@@ -38,6 +46,10 @@ const router = createBrowserRouter([
 				path: '/event/create',
 				element: <EventCreate />,
 			},
+			{
+				path: '/event/:id/payment/create',
+				element: <PaymentCreate />
+			}
 		],
 	},
 	{

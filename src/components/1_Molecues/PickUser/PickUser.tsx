@@ -3,18 +3,20 @@ import { UseFormResetField } from 'react-hook-form';
 import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
+import Input from '../../0_Atoms/Input/Input';
 type Inputs = {
 	name: string;
 	usersInput: string;
 };
 interface Props {
+	variant?: 'base' | 'payment';
 	usersInput: string;
 	resetField: UseFormResetField<Inputs>;
 	setSelectedUsers: Dispatch<SetStateAction<string[] | undefined>>;
 	selectedUsers: string[] | undefined;
 }
 
-export default function PickUser({ usersInput, resetField, setSelectedUsers, selectedUsers }: Props) {
+export default function PickUser({ usersInput, resetField, setSelectedUsers, selectedUsers, variant }: Props) {
 	const allUsers = useContext(AllUsersContext);
 	const myUser = useContext(UserContext);
 	const [filteredUsers, setFilteredUsers] = useState<MyUser[] | undefined>(undefined);
@@ -92,10 +94,15 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 							if (user === undefined) return <>Error</>;
 							return (
 								<div
-									onClick={() => deselectUser(user)}
+						
 									className='flex gap-2 items-center pt-1 pb-1'>
-									<UserAvatar imageUrl={user.photoUrl} />
+									<UserAvatar imageUrl={user.photoUrl} onClick={() => deselectUser(user)}/>
 									<p className='text-xs'> {user.email}</p>
+									{variant === 'payment' ? <>
+										<div className='w-4'></div>
+										<Input type={'number'} placeholder={'amount'} defaultValue={''} register={null} />
+									</> : null}
+									Remove
 								</div>
 							);
 						})}

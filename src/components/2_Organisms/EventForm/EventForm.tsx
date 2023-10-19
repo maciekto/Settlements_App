@@ -208,7 +208,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 					defaultValue=''
 					register={register('name', { required: true })}
 					placeholder='Event name'
-					variant={errors.name ? 'danger' : 'base'}
+					variant={errors.name ? 'danger' : 'outline'}
 				/>
 				{errors.name && <span className='text-themeDanger'>This field is required</span>}
 			</label>
@@ -220,6 +220,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 					defaultValue={''}
 					register={register('usersInput')}
 					placeholder={'Add users'}
+					variant='outline'
 				/>
 				<PickUser
 					usersInput={usersInput}

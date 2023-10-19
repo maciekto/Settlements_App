@@ -3,5 +3,8 @@ interface Props {
 }
 
 export default function PillsSection({ children }: Props) {
-	return <div className='w-full mt-6 mb-6 flex gap-2'>{...children}</div>;
+	return <div className='w-full max-w-sm mt-4 mb-4 flex gap-2 overflow-x-auto p-2'>
+	
+		{...children}
+			</div>;
 }
