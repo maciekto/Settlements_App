@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../0_Atoms/Button/Button';
+import Button from '../../../0_Atoms/Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function EventPayments() {

@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import EventDeleteForm from '../../2_Organisms/EventDeleteForm/EventDeleteForm';
-import MyEventContext from '../../context/MyEventsContext';
-import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { defaultEvent } from '../../utilities/defaultEvent';
+import React, { useContext, useEffect, useState } from 'react'
+import PaymentCreateForm from '../../../2_Organisms/PaymentCreateForm/PaymentCreateForm';
+import { defaultEvent } from '../../../utilities/defaultEvent';
+import MyEventContext from '../../../context/MyEventsContext';
+import ParticipateEventsContext from '../../../context/ParticipateEventsContext';
 import { useParams } from 'react-router-dom';
 
-export default function EventDelete() {
-	const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);
+export default function PaymentCreate() {
+  const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);
 	const myEvents = useContext(MyEventContext);
 	const participateEvents = useContext(ParticipateEventsContext);
 	const params = useParams();
@@ -37,12 +37,12 @@ export default function EventDelete() {
 		}
 	};
 
-	useEffect(() => {
+  useEffect(() => {
 		getCurrentEvent();
 	}, [currentEvent, myEvents, participateEvents]);
-	return (
-		<div>
-			<EventDeleteForm currentEvent={currentEvent} />
-		</div>
-	);
+  return (
+    <div>
+      <PaymentCreateForm currentEvent={currentEvent}/>
+    </div>
+  )
 }

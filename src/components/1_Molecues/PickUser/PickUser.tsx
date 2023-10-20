@@ -96,7 +96,7 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 								<div
 						
 									className='flex gap-2 items-center pt-1 pb-1'>
-									<UserAvatar imageUrl={user.photoUrl} onClick={() => deselectUser(user)}/>
+									<UserAvatar myUser={user} onClick={() => deselectUser(user)}/>
 									<p className='text-xs'> {user.email}</p>
 									{variant === 'payment' ? <>
 										<div className='w-4'></div>
@@ -116,7 +116,7 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 							<div
 								onClick={() => selectUser(user)}
 								className='flex gap-2 items-center p-1'>
-								<UserAvatar imageUrl={user.photoUrl} />
+								<UserAvatar myUser={user} />
 								<p className='text-xs'> {user.email}</p>
 							</div>
 						);

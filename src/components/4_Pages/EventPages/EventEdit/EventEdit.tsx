@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import EventForm from '../../2_Organisms/EventForm/EventForm';
-import MyEventContext from '../../context/MyEventsContext';
-import ParticipateEventsContext from '../../context/ParticipateEventsContext';
-import { defaultEvent } from '../../utilities/defaultEvent';
+import EventForm from '../../../2_Organisms/EventForm/EventForm';
+import MyEventContext from '../../../context/MyEventsContext';
+import ParticipateEventsContext from '../../../context/ParticipateEventsContext';
+import { defaultEvent } from '../../../utilities/defaultEvent';
 
 export default function EventEdit() {
 	const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);

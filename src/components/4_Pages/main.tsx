@@ -6,13 +6,14 @@ import Auth from '../3_Templates/Auth/Auth.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import LoginPage from './LoginPage/LoginPage.tsx';
 import MainPage from './MainPage/MainPage.tsx';
-import EventCreate from './EventCreate/EventCreate.tsx';
-import EventDashboard from './EventDashboard/EventDashboard.tsx';
+import EventCreate from './EventPages/EventCreate/EventCreate.tsx';
+import EventDashboard from './EventPages/EventDashboard/EventDashboard.tsx';
 import Testing from './Testing/Testing.tsx';
-import EventEdit from './EventEdit/EventEdit.tsx';
-import EventDelete from './EventDelete/EventDelete.tsx';
-import EventPayments from './EventPayments/EventPayments.tsx';
-import PaymentCreate from './PaymentCreate/PaymentCreate.tsx';
+import EventEdit from './EventPages/EventEdit/EventEdit.tsx';
+import EventDelete from './EventPages/EventDelete/EventDelete.tsx';
+import EventPayments from './EventPages/EventPayments/EventPayments.tsx';
+import PaymentCreate from './PaymentPages/PaymentCreate/PaymentCreate.tsx';
+import UserPage from './UserPages/UserPage/UserPage.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
 			{
 				path: '/event/:id/payment/create',
 				element: <PaymentCreate />
+			},
+			{
+				path: '/user/:id',
+				element: <UserPage />
 			}
 		],
 	},

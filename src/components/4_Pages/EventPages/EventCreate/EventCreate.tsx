@@ -1,4 +1,4 @@
-import EventForm from '../../2_Organisms/EventForm/EventForm';
+import EventForm from '../../../2_Organisms/EventForm/EventForm';
 
 export default function EventCreate() {
 	return (

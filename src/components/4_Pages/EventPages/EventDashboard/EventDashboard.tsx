@@ -3,17 +3,17 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import { auth, db } from '../../../services/firebase/firebase';
-import Loader from '../../0_Atoms/Loader/Loader';
-import MyEventsContext from '../../context/MyEventsContext';
-import ParticipateEventsContext from '../../context/ParticipateEventsContext';
+import { auth, db } from '../../../../services/firebase/firebase';
+import Loader from '../../../0_Atoms/Loader/Loader';
+import MyEventsContext from '../../../context/MyEventsContext';
+import ParticipateEventsContext from '../../../context/ParticipateEventsContext';
 import { onValue, query, ref } from 'firebase/database';
-import UserContext from '../../context/UserContext';
-import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
-import PillsSection from '../../1_Molecues/PillsSection/PillsSection';
-import Pill from '../../0_Atoms/Pill/Pill';
+import UserContext from '../../../context/UserContext';
+import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
+import PillsSection from '../../../1_Molecues/PillsSection/PillsSection';
+import Pill from '../../../0_Atoms/Pill/Pill';
 import EventPayments from '../EventPayments/EventPayments';
-import Button from '../../0_Atoms/Button/Button';
+import Button from '../../../0_Atoms/Button/Button';
 
 export default function EventDashboard() {
 	const params = useParams();
@@ -77,7 +77,7 @@ export default function EventDashboard() {
 		onValue(userQuery, (snapshot) => {
 			if (snapshot.exists()) {
 				setUsersInEvent((prevValue: MyUser[]) => {
-					return [...prevValue, snapshot.val()];
+					return [...prevValue, {...snapshot.val(), uid: uid}];
 				});
 			}
 		});
@@ -120,7 +120,7 @@ export default function EventDashboard() {
 				<div className='flex justify-between items-center mb-6'>
 					<span className='font-bold text-xl'>{selectedEvent.name}</span>
 					<UserAvatar
-						imageUrl={eventOwner?.photoUrl}
+						myUser={myUser}
 						size='medium'
 					/>
 				</div>
@@ -129,7 +129,7 @@ export default function EventDashboard() {
 					{usersInEvent.map((user) => {
 						return (
 							<UserAvatar
-								imageUrl={user.photoUrl}
+								myUser={user}
 								size='medium'
 							/>
 						);
