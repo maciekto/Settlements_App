@@ -12,8 +12,7 @@ import UserContext from '../../../context/UserContext';
 import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
 import PillsSection from '../../../1_Molecues/PillsSection/PillsSection';
 import Pill from '../../../0_Atoms/Pill/Pill';
-import EventPayments from '../EventPayments/EventPayments';
-import Button from '../../../0_Atoms/Button/Button';
+
 
 export default function EventDashboard() {
 	const params = useParams();
@@ -28,6 +27,7 @@ export default function EventDashboard() {
 
 	const [usersInEvent, setUsersInEvent] = useState<MyUser[]>([]);
 	const [eventOwner, setEventOwner] = useState<MyUser | undefined>(undefined);
+
 
 	// const myEvents: false | SettlementEvent[] = useContext(MyEventContext);
 	function handleEvents(): void {
@@ -154,6 +154,7 @@ export default function EventDashboard() {
 					<></>
 				</PillsSection>
 				<Outlet></Outlet>
+
 			</div>
 		);
 	}

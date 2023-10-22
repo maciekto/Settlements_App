@@ -33,6 +33,7 @@ const Input = ({ type, placeholder, defaultValue, register, variant = 'base' }: 
 			type={type}
 			placeholder={placeholder}
 			className={`${variantStyles} w-full transition-transform duration-200 `}
+
 			// onChange={(e) => onChange(e)}
 		/>
 	);

@@ -1,13 +1,13 @@
-export let eventId = 'id';
+export let uniqueId = 'id';
 
 const date = new Date();
 
-eventId += date.getFullYear();
-eventId += date.getMonth() + 1;
-eventId += date.getDate();
-eventId += date.getMinutes();
-eventId += date.getSeconds();
-eventId += date.getMilliseconds();
+uniqueId += date.getFullYear();
+uniqueId += date.getMonth() + 1;
+uniqueId += date.getDate();
+uniqueId += date.getMinutes();
+uniqueId += date.getSeconds();
+uniqueId += date.getMilliseconds();
 
 export const year = date.getFullYear();
 

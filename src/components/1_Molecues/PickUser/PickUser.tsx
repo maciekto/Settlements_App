@@ -5,8 +5,10 @@ import UserContext from '../../context/UserContext';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
 import Input from '../../0_Atoms/Input/Input';
 type Inputs = {
-	name: string;
-	usersInput: string;
+	amount: string;
+  name: string;
+  usersInput: string;
+  attachment: string;
 };
 interface Props {
 	variant?: 'base' | 'payment';
@@ -14,6 +16,7 @@ interface Props {
 	resetField: UseFormResetField<Inputs>;
 	setSelectedUsers: Dispatch<SetStateAction<string[] | undefined>>;
 	selectedUsers: string[] | undefined;
+	inputs?: Object;
 }
 
 export default function PickUser({ usersInput, resetField, setSelectedUsers, selectedUsers, variant }: Props) {
@@ -93,16 +96,26 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 							})[0];
 							if (user === undefined) return <>Error</>;
 							return (
-								<div
-						
-									className='flex gap-2 items-center pt-1 pb-1'>
-									<UserAvatar myUser={user} onClick={() => deselectUser(user)}/>
-									<p className='text-xs'> {user.email}</p>
-									{variant === 'payment' ? <>
+								<div className='flex gap-2 items-center pt-1 pb-1 flex-col'>
+										<div className='flex gap-2  pt-1 pb-1 w-full'>
+											<div className='flex w-full gap-2'>
+												<UserAvatar myUser={user} onClick={() => deselectUser(user)}/>
+												<p className='text-xs'> {user.email}</p>
+											</div>
+											
+									
+											<div onClick={() => deselectUser(user)} className='p-2 border-2 h-8 w-8 border-themePrimary rounded-full flex items-center justify-center cursor-pointer'>
+												<div className='w-4 h-[2px] bg-themeDanger'>
+												
+												</div>
+											</div>
+								
+										</div>
+								
+									{/* {variant === 'payment' ? <>
 										<div className='w-4'></div>
 										<Input type={'number'} placeholder={'amount'} defaultValue={''} register={null} />
-									</> : null}
-									Remove
+									</> : null} */}
 								</div>
 							);
 						})}

@@ -5,9 +5,9 @@ import { ref, set, update } from 'firebase/database';
 import { db } from '../../../services/firebase/firebase';
 import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PickUser from '../../1_Molecues/PickUser/PickUser';
-import { eventId, year, month, day } from '../../utilities/generateEventId';
+import { uniqueId, year, month, day } from '../../utilities/generateUniqueId';
 import Button from '../../0_Atoms/Button/Button';
 
 type Inputs = {
@@ -54,7 +54,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 			return;
 		}
 		let eventObject = {
-			id: eventId,
+			id: uniqueId,
 			date: `${year}-${month}-${day}`,
 			name: data.name,
 			owner: myUser?.uid,
@@ -69,22 +69,22 @@ export default function EventForm({ type, currentEvent }: Props) {
 						value: userUid,
 						enumerable: true,
 					});
-					updateUserData(userUid, eventId);
+					updateUserData(userUid, uniqueId);
 				});
 			}
 		}
 
 		// Create new event in DB
-		set(ref(db, 'events/' + eventId), eventObject);
+		set(ref(db, 'events/' + uniqueId), eventObject);
 
 		// Create new ownerOfEvent in DB
 		const lengthOfUserOwnerArray = myUser?.ownerOfEvents.length;
 		let targetObject = {};
-		Object.defineProperty(targetObject, lengthOfUserOwnerArray, { value: eventId, enumerable: true });
+		Object.defineProperty(targetObject, lengthOfUserOwnerArray, { value: uniqueId, enumerable: true });
 		update(ref(db, `users/${myUser.uid}/ownerOfEvents`), targetObject);
 
 		//  Go to newly created event
-		navigate('/event/' + eventId);
+		navigate('/event/' + uniqueId);
 	};
 
 	const updateEvent = (data: Inputs) => {
@@ -141,7 +141,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 			}
 		});
 		deletedUsers.forEach((userUid) => {
-			// Get their participatesEvent array and remove only this eventid from it.
+			// Get their participatesEvent array and remove only this uniqueId from it.
 
 			const deletedUser = allUsers?.find((user) => {
 				if (user.uid === userUid) {
@@ -169,7 +169,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 		navigate('/event/' + currentEvent.id);
 	};
 
-	function updateUserData(uid: string, eventId: string) {
+	function updateUserData(uid: string, uniqueId: string) {
 		if (allUsers === undefined) return;
 
 		const user: MyUser[] = allUsers.filter((user) => user.uid === uid);
@@ -177,7 +177,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 
 		const targetObject = {};
 
-		Object.defineProperty(targetObject, lengthOfTargetArray, { value: eventId, enumerable: true });
+		Object.defineProperty(targetObject, lengthOfTargetArray, { value: uniqueId, enumerable: true });
 		console.log(targetObject);
 		update(ref(db, `users/${uid}/participateOfEvents/`), targetObject);
 	}

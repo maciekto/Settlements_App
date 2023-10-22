@@ -14,6 +14,7 @@ import EventDelete from './EventPages/EventDelete/EventDelete.tsx';
 import EventPayments from './EventPages/EventPayments/EventPayments.tsx';
 import PaymentCreate from './PaymentPages/PaymentCreate/PaymentCreate.tsx';
 import UserPage from './UserPages/UserPage/UserPage.tsx';
+import PaymentDashboard from './PaymentPages/PaymentDashboard/PaymentDashboard.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
 			{
 				path: '/event/:id/payment/create',
 				element: <PaymentCreate />
+			},
+			{
+				path: '/event/:id/payment/:paymentId',
+				element: <PaymentDashboard />
 			},
 			{
 				path: '/user/:id',

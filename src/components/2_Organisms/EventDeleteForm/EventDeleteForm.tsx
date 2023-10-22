@@ -1,7 +1,7 @@
-import { SubmitHandler, set, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import Input from '../../0_Atoms/Input/Input';
 import Button from '../../0_Atoms/Button/Button';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import UserContext from '../../context/UserContext';
 import { ref, remove, update } from 'firebase/database';
@@ -23,10 +23,10 @@ export default function EventDeleteForm({ currentEvent }: Props) {
 	const {
 		register,
 		handleSubmit,
-		watch,
+		// watch,
 		formState: { errors },
-		resetField,
-		setValue,
+		// resetField,
+		// setValue,
 	} = useForm<Inputs>();
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {

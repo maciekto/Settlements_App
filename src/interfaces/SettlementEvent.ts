@@ -4,6 +4,7 @@ interface SettlementEvent {
 	owner: string;
 	date: string;
 	users: string[];
+	payments: Payment[]
 }
 
 
