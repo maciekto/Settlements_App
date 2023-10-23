@@ -25,7 +25,10 @@ export default function MenuIcon({ handleMenu }: Props) {
 			className={`${isMenuIconAnimation ? 'animate-pulse' : null} z-20 text-2xl grid place-items-center w-8 cursor-pointer`}
 			onClick={handleClickOnIcon}>
 			{/*  */}
-			<UserAvatar myUser={myUser} />
+			<UserAvatar
+				myUser={myUser}
+				navigation={false}
+			/>
 			{/* <FontAwesomeIcon icon={faEllipsisVertical} /> */}
 		</div>
 	);

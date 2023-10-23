@@ -9,13 +9,13 @@ import PickUser from '../../1_Molecues/PickUser/PickUser';
 import { db, dbRef } from '../../../services/firebase/firebase';
 import { child, getDatabase, onValue, ref, update } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
-import { uniqueId, year, month, day } from '../../utilities/generateUniqueId';
+import { getUniqueId_AndYearMonthDay } from '../../utilities/generateUniqueId';
 
 interface Inputs {
-  amount: string;
-  name: string;
-  usersInput: string;
-  attachment: string;
+	amount: string;
+	name: string;
+	usersInput: string;
+	attachment: string;
 }
 interface Props {
 	currentEvent: SettlementEvent;
@@ -25,8 +25,7 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 	const allUsers = useContext(AllUsersContext);
 	const myUser = useContext<MyUser>(UserContext);
 	const navigate = useNavigate();
-  const [selectedUsers, setSelectedUsers] = useState<string[] | undefined>(undefined);
-
+	const [selectedUsers, setSelectedUsers] = useState<string[] | undefined>(undefined);
 
 	const {
 		register,
@@ -37,11 +36,13 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 		setValue,
 	} = useForm<Inputs>();
 
-  const usersInput = watch('usersInput')
+	const usersInput = watch('usersInput');
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log('clicked')
-		console.log(currentEvent)
+		const { uniqueId, year, month, day } = getUniqueId_AndYearMonthDay();
+
+		console.log('clicked');
+		console.log(currentEvent);
 
 		const paymentObject = {
 			date: `${year}-${month}-${day}`,
@@ -50,7 +51,7 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 			name: data.name,
 			users: {},
 			whopaid: myUser.uid,
-		}
+		};
 
 		if (selectedUsers !== undefined) {
 			if (selectedUsers.length > 0) {
@@ -64,6 +65,7 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 		}
 		update(ref(db, `events/${currentEvent.id}/payments/${uniqueId}`), paymentObject);
 
+		navigate(`/event/${currentEvent.id}/`);
 		// set(db, `events/${currentEvent.id}/payments`)
 	};
 	// console.log(dbRef)
@@ -71,8 +73,6 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 	// 		.then((snapshot) => {
 	// 			console.log('sieamno')
 	// 		})
-
-
 
 	return (
 		<form
@@ -90,7 +90,7 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 				/>
 				{errors.amount && <span className='text-themeDanger'>This field is required</span>}
 			</label>
-      <label>
+			<label>
 				<Input
 					type='text'
 					defaultValue=''
@@ -100,16 +100,16 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 				/>
 				{errors.amount && <span className='text-themeDanger'>This field is required</span>}
 			</label>
-      <label>
+			<label>
 				<Input
 					type='text'
 					defaultValue={''}
 					register={register('usersInput')}
 					placeholder={'Add users'}
-          variant='outline'
+					variant='outline'
 				/>
 				<PickUser
-          variant='payment'
+					variant='payment'
 					usersInput={usersInput}
 					resetField={resetField}
 					setSelectedUsers={setSelectedUsers}
