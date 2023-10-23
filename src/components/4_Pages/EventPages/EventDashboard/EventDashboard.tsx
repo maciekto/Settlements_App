@@ -13,7 +13,6 @@ import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
 import PillsSection from '../../../1_Molecues/PillsSection/PillsSection';
 import Pill from '../../../0_Atoms/Pill/Pill';
 
-
 export default function EventDashboard() {
 	const params = useParams();
 	const navigate = useNavigate();
@@ -28,8 +27,9 @@ export default function EventDashboard() {
 	const [usersInEvent, setUsersInEvent] = useState<MyUser[]>([]);
 	const [eventOwner, setEventOwner] = useState<MyUser | undefined>(undefined);
 
-
 	// const myEvents: false | SettlementEvent[] = useContext(MyEventContext);
+
+	// ^ LOAD EVENT FUNCTIONALITY
 	function handleEvents(): void {
 		if (myUser === undefined) {
 			return;
@@ -63,7 +63,6 @@ export default function EventDashboard() {
 
 		return event;
 	}
-
 	async function getUser(uid: string) {
 		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
 			if (snapshot.exists()) {
@@ -71,24 +70,23 @@ export default function EventDashboard() {
 			}
 		});
 	}
-
 	function getUsers(uid: string) {
 		const userQuery = query(ref(db, `users/${uid}`));
 		onValue(userQuery, (snapshot) => {
 			if (snapshot.exists()) {
 				setUsersInEvent((prevValue: MyUser[]) => {
-					return [...prevValue, {...snapshot.val(), uid: uid}];
+					return [...prevValue, { ...snapshot.val(), uid: uid }];
 				});
 			}
 		});
 	}
-
 	function handleUsersInEvent() {
 		selectedEvent?.users.map((userUid: string) => {
 			getUsers(userUid);
 		});
 		console.log(usersInEvent);
 	}
+	// ^ LOAD EVENT FUNCTIONALITY
 
 	function editEvent() {
 		navigate(`/event/${params.id}/edit`);
@@ -96,12 +94,14 @@ export default function EventDashboard() {
 
 	useEffect(() => {
 		if (auth.currentUser !== null) {
+			// ^ LOAD EVENT FUNCTIONALITY
 			handleEvents();
 			if (selectedEvent) {
 				if (usersInEvent.length == 0) {
 					handleUsersInEvent();
 				}
 			}
+			// ^ LOAD EVENT FUNCTIONALITY
 		}
 	}, [selectedEvent, myEvents, participateEvents, usersInEvent]);
 
@@ -120,7 +120,7 @@ export default function EventDashboard() {
 				<div className='flex justify-between items-center mb-6'>
 					<span className='font-bold text-xl'>{selectedEvent.name}</span>
 					<UserAvatar
-						myUser={myUser}
+						myUser={eventOwner}
 						size='medium'
 					/>
 				</div>
@@ -148,13 +148,12 @@ export default function EventDashboard() {
 						}}>
 						Set
 					</Pill>
-					
+
 					<Pill onClick={editEvent}>Edit Event</Pill>
 
 					<></>
 				</PillsSection>
 				<Outlet></Outlet>
-
 			</div>
 		);
 	}

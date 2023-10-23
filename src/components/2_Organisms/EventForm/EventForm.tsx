@@ -91,10 +91,8 @@ export default function EventForm({ type, currentEvent }: Props) {
 		if (currentEvent === undefined) return;
 
 		let eventObject = {
-			id: currentEvent.id,
-			date: currentEvent.date,
+			...currentEvent,
 			name: data.name,
-			owner: currentEvent.owner,
 			users: {},
 		};
 		if (selectedUsers !== undefined) {

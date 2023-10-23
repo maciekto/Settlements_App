@@ -62,12 +62,11 @@ export default function DBProvider({ children }: Props) {
 					eventObject.users = [];
 				}
 				// Modify payments in event object
-				if(eventObject.payments !== undefined) {
-					eventObject.payments = Object.values(eventObject.payments)
+				if (eventObject.payments !== undefined) {
+					eventObject.payments = Object.values(eventObject.payments);
 				} else {
 					eventObject.payments = [];
 				}
-			
 
 				if (type === 'participateEvent') {
 					setParticipateEvents((prevValue: SettlementEvent[]) => {

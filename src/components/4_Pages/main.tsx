@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as serviceWorkerRegistration from './../../serviceWorkerRegistration';
-import reportWebVitals from '../../reportWebVitals.js'
+import reportWebVitals from '../../reportWebVitals.js';
 
 import '../base/base.css';
 import Auth from '../3_Templates/Auth/Auth.tsx';
@@ -52,16 +52,16 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/event/:id/payment/create',
-				element: <PaymentCreate />
+				element: <PaymentCreate />,
 			},
 			{
 				path: '/event/:id/payment/:paymentId',
-				element: <PaymentDashboard />
+				element: <PaymentDashboard />,
 			},
 			{
 				path: '/user/:id',
-				element: <UserPage />
-			}
+				element: <UserPage />,
+			},
 		],
 	},
 	{
