@@ -11,6 +11,11 @@ font-family: 'Turret Road', cursive; */
 		font-family: 'Quantico', sans-serif;
 	}
 }
+body {
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+}
 
 * {
 	box-sizing: border-box !important;

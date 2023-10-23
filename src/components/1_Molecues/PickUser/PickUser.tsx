@@ -3,7 +3,6 @@ import { UseFormResetField } from 'react-hook-form';
 import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
-import Input from '../../0_Atoms/Input/Input';
 type Inputs = {
 	amount: string;
   name: string;

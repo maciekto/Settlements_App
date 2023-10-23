@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
 
 interface Props {
 	eventID: string;

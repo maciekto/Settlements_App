@@ -3,6 +3,7 @@ import Button from '../../0_Atoms/Button/Button';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../services/firebase/firebase';
 import { useEffect, useState } from 'react';
+import { useAddToHomescreenPrompt } from '../../utilities/useAddToHomescreenPrompt';
 
 interface Props {
 	isMenuVisible: boolean;
@@ -47,9 +48,10 @@ export default function AsideMenu({ isMenuVisible }: Props) {
 				<br />
 				<br />
 			</div>
-			<div className='text-themePrimary w-full p-6 flex flex-col items-end bg-themeWhite rounded-2xl border-2 border-themePrimary shadow-md'>
+			<div className='text-themePrimary w-full p-6 flex flex-col items-end bg-themeWhite rounded-2xl shadow-md'>
 				<p>Account</p>
 				<p>text2</p>
+
 				<Button
 					onClick={logOut}
 					variant='cta'>

@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import * as serviceWorkerRegistration from './../../serviceWorkerRegistration';
+import reportWebVitals from '../../reportWebVitals.js'
 
 import '../base/base.css';
 import Auth from '../3_Templates/Auth/Auth.tsx';
@@ -77,3 +79,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<RouterProvider router={router}></RouterProvider>
 	</React.StrictMode>,
 );
+
+serviceWorkerRegistration.register();
+
+reportWebVitals();
