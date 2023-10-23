@@ -13,6 +13,7 @@ import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
 import PillsSection from '../../../1_Molecues/PillsSection/PillsSection';
 import Pill from '../../../0_Atoms/Pill/Pill';
 
+
 export default function EventDashboard() {
 	const params = useParams();
 	const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function EventDashboard() {
 
 	const [usersInEvent, setUsersInEvent] = useState<MyUser[]>([]);
 	const [eventOwner, setEventOwner] = useState<MyUser | undefined>(undefined);
+
 
 	// const myEvents: false | SettlementEvent[] = useContext(MyEventContext);
 	function handleEvents(): void {
@@ -75,7 +77,7 @@ export default function EventDashboard() {
 		onValue(userQuery, (snapshot) => {
 			if (snapshot.exists()) {
 				setUsersInEvent((prevValue: MyUser[]) => {
-					return [...prevValue, { ...snapshot.val(), uid: uid }];
+					return [...prevValue, {...snapshot.val(), uid: uid}];
 				});
 			}
 		});
@@ -146,12 +148,13 @@ export default function EventDashboard() {
 						}}>
 						Set
 					</Pill>
-
+					
 					<Pill onClick={editEvent}>Edit Event</Pill>
 
 					<></>
 				</PillsSection>
 				<Outlet></Outlet>
+
 			</div>
 		);
 	}

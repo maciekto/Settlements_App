@@ -5,12 +5,11 @@ interface Props {
 	myUser?: MyUser;
 	size?: 'small' | 'medium' | 'large';
 	onClick?: () => void;
-	navigation?: boolean;
 }
 
-export default function UserAvatar({ myUser, size = 'small', onClick, navigation = true }: Props) {
+export default function UserAvatar({ myUser, size = 'small', onClick }: Props) {
 	const [sizeStyles, setSizeStyles] = useState<string | null>(null);
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 	const sizes = {
 		small: 'w-8',
 		medium: 'w-10',
@@ -18,8 +17,8 @@ export default function UserAvatar({ myUser, size = 'small', onClick, navigation
 	};
 
 	function handleClick() {
-		if (onClick) onClick();
-		if (navigation === true) navigate(`/user/${myUser?.uid}`);
+		if(onClick) onClick();
+		navigate(`/user/${myUser?.uid}`)
 	}
 
 	useEffect(() => {
