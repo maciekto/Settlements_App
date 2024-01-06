@@ -32,7 +32,7 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 	const navigate = useNavigate();
 	const [paymentUsers, setPaymentUsers] = useState<UserPayment[]>([]);
 	const [ownerUser, setOwnerUser] = useState<UserPayment>({
-		uid: myUser.uid,
+		uid: currentEvent.owner,
 		checked: true,
 		value: 0
 	})
@@ -55,7 +55,6 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
 	const uniqueId = generateUniqueId();
-
 		const paymentObject = {
 			date: `${year}-${month}-${day}`,
 			id: uniqueId,
@@ -75,7 +74,8 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
 					const userPaymentObject = {
 						uid: user.uid,
-						value: user.value
+						value: user.value,
+						id: generateUniqueId()
 					}
 					if(user.checked) {
 						Object.defineProperty(paymentObject.users, user.uid, {
@@ -177,6 +177,13 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 					if(checkIfAlreadyExists.length > 0)
 						return [...prevValue]
 					else
+						if(user === myUser.uid) {
+							return [...prevValue, {
+								uid: currentEvent.owner,
+								checked: false,
+								value: 0
+							}]
+						}
 						return [...prevValue, {
 							uid: user,
 							checked: false,

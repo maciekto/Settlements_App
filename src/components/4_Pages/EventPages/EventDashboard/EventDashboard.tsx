@@ -1,7 +1,7 @@
 // TODO: Make logic for authentication (do not show event to user if he is not a member or the owner)
 // ^ Need to get events from database only for the owner or the member (not downloading all the events and then filter)
 
-import { useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { auth, db } from '../../../../services/firebase/firebase';
 import Loader from '../../../0_Atoms/Loader/Loader';
@@ -13,6 +13,8 @@ import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
 import PillsSection from '../../../1_Molecues/PillsSection/PillsSection';
 import Pill from '../../../0_Atoms/Pill/Pill';
 
+export const selectedEventContext = createContext<SettlementEvent | undefined>(undefined);
+
 export default function EventDashboard() {
 	const params = useParams();
 	const navigate = useNavigate();
@@ -20,6 +22,8 @@ export default function EventDashboard() {
 	const myEvents = useContext(MyEventsContext);
 	const participateEvents = useContext(ParticipateEventsContext);
 	const myUser = useContext(UserContext);
+
+
 
 	const [selectedEvent, setSelectedEvent] = useState<undefined | SettlementEvent>(undefined);
 	const [errorMessage, setErrorMessage] = useState<string | false>(false);
@@ -126,9 +130,10 @@ export default function EventDashboard() {
 				</div>
 
 				<div className='flex gap-2'>
-					{usersInEvent.map((user) => {
+					{usersInEvent.map((user, index) => {
 						return (
 							<UserAvatar
+								key={index}
 								myUser={user}
 								size='medium'
 							/>
@@ -136,24 +141,27 @@ export default function EventDashboard() {
 					})}
 				</div>
 				<PillsSection>
-					{/* <Pill
+				<Pill
 						onClick={() => {
 							navigate(`/event/${params.id}/`);
 						}}>
-						Payments
-					</Pill> */}
-					{/* <Pill
+						Summary
+					</Pill>
+					<Pill
 						onClick={() => {
-							navigate(`/event/${params.id}/settlement`);
+							navigate(`/event/${params.id}/payments`);
 						}}>
-						Set
-					</Pill> */}
+						Payments
+					</Pill>
+					
 
 					<Pill onClick={editEvent}>Edit Event</Pill>
-
 					<></>
 				</PillsSection>
-				<Outlet></Outlet>
+				<selectedEventContext.Provider value={selectedEvent}>
+					<Outlet></Outlet>
+				</selectedEventContext.Provider>
+				
 			</div>
 		);
 	}

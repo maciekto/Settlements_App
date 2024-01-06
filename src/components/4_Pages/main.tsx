@@ -17,6 +17,7 @@ import EventPayments from './EventPages/EventPayments/EventPayments.tsx';
 import PaymentCreate from './PaymentPages/PaymentCreate/PaymentCreate.tsx';
 import UserPage from './UserPages/UserPage/UserPage.tsx';
 import PaymentDashboard from './PaymentPages/PaymentDashboard/PaymentDashboard.tsx';
+import EventSummary from './EventPages/EventSummary/EventSummary.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -33,8 +34,12 @@ const router = createBrowserRouter([
 				element: <EventDashboard />,
 				children: [
 					{
-						path: '/event/:id/',
+						path: '/event/:id/payments',
 						element: <EventPayments />,
+					},
+					{
+						path: '/event/:id/',
+						element: <EventSummary />,
 					},
 				],
 			},

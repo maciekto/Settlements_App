@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import PaymentCreateForm from '../../../2_Organisms/PaymentCreateForm/PaymentCreateForm';
 import { defaultEvent } from '../../../utilities/defaultEvent';
 import MyEventContext from '../../../context/MyEventsContext';
@@ -6,7 +6,7 @@ import ParticipateEventsContext from '../../../context/ParticipateEventsContext'
 import { useParams } from 'react-router-dom';
 
 export default function PaymentCreate() {
-  const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);
+	const [currentEvent, setCurrentEvent] = useState<SettlementEvent>(defaultEvent);
 	const myEvents = useContext(MyEventContext);
 	const participateEvents = useContext(ParticipateEventsContext);
 	const params = useParams();
@@ -37,12 +37,12 @@ export default function PaymentCreate() {
 		}
 	};
 
-  useEffect(() => {
+	useEffect(() => {
 		getCurrentEvent();
 	}, [currentEvent, myEvents, participateEvents]);
-  return (
-    <div>
-      <PaymentCreateForm currentEvent={currentEvent}/>
-    </div>
-  )
+	return (
+		<div>
+			<PaymentCreateForm currentEvent={currentEvent} />
+		</div>
+	);
 }
