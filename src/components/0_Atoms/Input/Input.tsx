@@ -17,7 +17,7 @@ interface Props {
 const Input = ({ type, placeholder, defaultValue, register, variant = 'base' }: Props) => {
 	const [variantStyles, setVariantStyles] = useState<string | null>(null);
 	const variants = {
-		base: 'border-b-2 border-themeGray rounded-none',
+		base: 'border-2 border-themeGray rounded-none',
 		outline: 'border-themePrimary rounded-2xl h-12 p-2 border-2 mt-2 mb-2',
 		danger: 'border-themeDanger rounded-2xl h-12 p-2 border-2 mt-2 mb-2',
 	};
@@ -31,6 +31,7 @@ const Input = ({ type, placeholder, defaultValue, register, variant = 'base' }: 
 			{...register}
 			defaultValue={defaultValue}
 			type={type}
+			step={'any'}
 			placeholder={placeholder}
 			className={`${variantStyles} w-full transition-transform duration-200 `}
 

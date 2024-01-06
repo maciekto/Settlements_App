@@ -11,10 +11,15 @@ interface Props {
 
 export default function EventList({ title, events, buttonAddEvent }: Props): JSX.Element {
 	const renderEvents = () => {
+		console.log()
 		if (events === undefined) {
 			return <Loader size='small' />;
 		}
-		if (events) {
+		console.log(events[0].name)
+		if(events[0].name === 'defaultName') {
+			return <div>U have zero of {title}</div>
+		}
+		if (events.length > 0) {
 			return events.map((event: SettlementEvent): JSX.Element => {
 				return (
 					<Event
@@ -24,6 +29,7 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 				);
 			});
 		}
+		
 	};
 
 	const navigate = useNavigate();
@@ -32,7 +38,7 @@ export default function EventList({ title, events, buttonAddEvent }: Props): JSX
 	}
 
 	return (
-		<div className='w-full'>
+		<div className='w-full pb-2'>
 			<p className='font-bold text-xl'>{title}</p>
 
 			{renderEvents()}

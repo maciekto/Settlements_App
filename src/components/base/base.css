@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+input {
+	border: 1px solid black; 
+}
 /* font-family: 'Quantico', sans-serif;
 font-family: 'Stick No Bills', sans-serif;
 font-family: 'Turret Road', cursive; */

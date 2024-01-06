@@ -11,7 +11,7 @@ export default function MainPage() {
 	useEffect(() => {}, []);
 
 	return (
-		<div className='h-full'>
+		<div className='h-full w-full'>
 			<EventList
 				buttonAddEvent={true}
 				title='Your events'

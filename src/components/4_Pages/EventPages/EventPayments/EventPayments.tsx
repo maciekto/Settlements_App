@@ -7,14 +7,14 @@ import MyEventsContext from '../../../context/MyEventsContext';
 import ParticipateEventsContext from '../../../context/ParticipateEventsContext';
 
 export default function EventPayments() {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const params = useParams();
 	const myEvents = useContext(MyEventsContext);
 	const participateEvents = useContext(ParticipateEventsContext);
 
 	const [selectedEvent, setSelectedEvent] = useState<SettlementEvent>(defaultEvent);
 	const [errorMessage, setErrorMessage] = useState<string | false>(false);
-	
+
 	function handleEvents(): void {
 		if (params.id === undefined) {
 			setErrorMessage('Event not Found');
@@ -44,18 +44,20 @@ export default function EventPayments() {
 		return event;
 	}
 
-
 	useEffect(() => {
 		handleEvents();
-		console.log(selectedEvent)
-	}, [myEvents, participateEvents, selectedEvent])
+		console.log(selectedEvent);
+	}, [myEvents, participateEvents, selectedEvent]);
 
-	return <div className='h-auto'>
-		<Button variant={'cta'} onClick={() => navigate(`/event/${params.id}/payment/create`)}>
-			Add Payment
-		</Button>
-		<PaymentList currentEvent={selectedEvent}/>
-		{errorMessage ? errorMessage : null}
-
-	</div>;
+	return (
+		<div className='h-auto'>
+			<Button
+				variant={'cta'}
+				onClick={() => navigate(`/event/${params.id}/payment/create`)}>
+				Add Payment
+			</Button>
+			<PaymentList currentEvent={selectedEvent} />
+			{errorMessage ? errorMessage : null}
+		</div>
+	);
 }

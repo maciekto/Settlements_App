@@ -136,18 +136,18 @@ export default function EventDashboard() {
 					})}
 				</div>
 				<PillsSection>
-					<Pill
+					{/* <Pill
 						onClick={() => {
 							navigate(`/event/${params.id}/`);
 						}}>
 						Payments
-					</Pill>
-					<Pill
+					</Pill> */}
+					{/* <Pill
 						onClick={() => {
 							navigate(`/event/${params.id}/settlement`);
 						}}>
 						Set
-					</Pill>
+					</Pill> */}
 
 					<Pill onClick={editEvent}>Edit Event</Pill>
 

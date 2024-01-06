@@ -7,8 +7,10 @@ import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import PickUser from '../../1_Molecues/PickUser/PickUser';
-import { uniqueId, year, month, day } from '../../utilities/generateUniqueId';
+import { generateUniqueId, year, month, day } from '../../utilities/generateUniqueId';
 import Button from '../../0_Atoms/Button/Button';
+
+
 
 type Inputs = {
 	name: string;
@@ -49,6 +51,7 @@ export default function EventForm({ type, currentEvent }: Props) {
 	};
 
 	const submitNewEvent = (data: Inputs) => {
+		const uniqueId = generateUniqueId();
 		if (myUser === undefined) {
 			navigate('/login');
 			return;

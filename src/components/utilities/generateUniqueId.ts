@@ -1,13 +1,21 @@
-export let uniqueId = 'id';
+function generateNewDate() {
+	return new Date();
+}
 
-const date = new Date();
+export function generateUniqueId() {
+	let uniqueId = 'id';
+	const date = new Date();
+	uniqueId += date.getFullYear();
+	uniqueId += date.getMonth() + 1;
+	uniqueId += date.getDate();
+	uniqueId += date.getMinutes();
+	uniqueId += date.getSeconds();
+	uniqueId += date.getMilliseconds();
+	return uniqueId
+}
+const date = generateNewDate();
 
-uniqueId += date.getFullYear();
-uniqueId += date.getMonth() + 1;
-uniqueId += date.getDate();
-uniqueId += date.getMinutes();
-uniqueId += date.getSeconds();
-uniqueId += date.getMilliseconds();
+
 
 export const year = date.getFullYear();
 

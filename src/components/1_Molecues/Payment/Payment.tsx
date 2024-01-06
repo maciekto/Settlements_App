@@ -19,7 +19,7 @@ export default function Event({ eventID, payment }: Props): JSX.Element {
 		<div
 			onClick={handleGoToEventDashboard}
 			key='bang'
-			className='border-2 border-themePrimary p-4 pl-6 pr-6 rounded-2xl mt-2 mb-2 cursor-pointer bg-themeWhite hover:scale-105 transition-transform duration-200'>
+			className='border-2 border-themePrimary p-4 pl-6 pr-6 rounded-2xl mt-2 mb-2 cursor-pointer bg-themeWhite hover:scale-100 transition-transform duration-200'>
 			<div className='text-sm text-themePrimary opacity-40'>{payment.date}</div>
 			<div className='font-bold text-lg'> {payment.name}</div>
 		</div>

@@ -5,10 +5,10 @@ import DBProvider from '../DBProvider/DBProvider';
 
 export default function App() {
 	return (
-		<main className='text-themePrimary w-96 grid h-screenIOs grid-rows-AppTemplate pr-4 pl-4'>
+		<main className='text-themePrimary max-w-full w-full grid h-screenIOs grid-rows-AppTemplate pl-4 pr-4'>
 			<DBProvider>
 				<Nav />
-				<main className='pt-6 pb-6 w-full'>
+				<main className='pt-6 pb-6 w-full overflow-y-scroll'>
 					<Outlet />
 				</main>
 			</DBProvider>
