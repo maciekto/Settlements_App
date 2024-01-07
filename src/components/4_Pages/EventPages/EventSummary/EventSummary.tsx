@@ -3,10 +3,10 @@ import { selectedEventContext } from '../EventDashboard/EventDashboard'
 import { update } from 'firebase/database';
 
 type needsToPayObject = {
-  id: string;
   uid: string;
-  value: Number;
+  value: number;
   payTo: string;
+  paymentsIds: string[];
 }
 
 export default function EventSummary() {
@@ -17,47 +17,67 @@ export default function EventSummary() {
 
   function initial() {
     selectedEvent?.payments.map((payment) => {
-      // console.log(payment)
 
+      // Convert users from objects to Array
       const usersArray = Object.values(payment.users)
       usersArray.forEach((userWhoNeedsToPay) => {
 
+        // Setstate logic
         setNeedsToPay((prevValue) => {
-          const checkIfTheSameExists = prevValue.filter((el) => el.id == userWhoNeedsToPay.id);
+
+          // Check if payment is already written (need to do because react render 2 times in development)
+          const checkIfTheSameExists = prevValue.filter((el) => el.paymentsIds.includes(userWhoNeedsToPay.id));
+          
+          // If checkIfTheSameExists found something length is greater than 0 so, no need to do any operations, return previous Value
           if(checkIfTheSameExists.length > 0) {
             return [...prevValue]
-          } else {
+          } 
+          
+          // If is 0 continue
+          else {
+
+            // Check if user in existing array has the same connection to the new user and if yes update value of that relation
+            // Need to do because without that there would be multiple payments from user1 to user2 for example. 
+            // We want that to be in one relation.
             const updated = prevValue.map((el) => {
-            //TODO: FIX FOR DEPLOYMENT EXETUTES TWO TIMES
+
+              // Check if it's the same
               if(el.uid == userWhoNeedsToPay.uid && el.payTo == payment.whopaid.uid) {
-                console.log('update')
-                console.log(el.uid, el.payTo, el.value)
                 return {
-                  id: el.id,
                   uid: el.uid,
                   value: Number(el.value) + Number(userWhoNeedsToPay.value),
-                  payTo: el.payTo
+                  payTo: el.payTo,
+                  // Update the paymentsIds for making sure that every payment has been included and not doubled
+                  paymentsIds: [...el.paymentsIds, userWhoNeedsToPay.id]
                 }
-              } else {
+              } 
+              
+              // If user is not the same return element (do not change anything)
+              else {
                 return el
               }
             })
             
+            // Now we need to check if updated array is different than prevValue
             let isTheSame = true;
             for(let i=0; i < prevValue.length; i++) {
               if(prevValue[i].value !== updated[i].value) {
                 isTheSame = false
               }
             }
-            // isTheSame = true
+
+            // If is true create new payment in array
             if(isTheSame) {
               return [...prevValue, {
-                id: userWhoNeedsToPay.id,
                 uid: userWhoNeedsToPay.uid,
                 value: Number(userWhoNeedsToPay.value),
-                payTo: payment.whopaid.uid
+                payTo: payment.whopaid.uid,
+                paymentsIds: [userWhoNeedsToPay.id],
               }]
-            } else {
+            } 
+            
+            // If is false return updated array
+            else {
               return [...updated]
             } 
           }
@@ -67,20 +87,20 @@ export default function EventSummary() {
   }
 
   function loadSummary() {
-    // needsToPay.forEach((el1) => {
-    //   needsToPay.forEach((el2) => {
-    //     if(el1.uid === el2.payTo && el1.payTo === el2.uid) {
+    needsToPay.forEach((el1) => {
+      needsToPay.forEach((el2) => {
+        if(el1.uid === el2.payTo && el1.payTo === el2.uid) {
           
-    //       const operation = Number(el1.value) - Number(el2.value)
-    //       if(operation > 0) {
-    //         console.log('Para znaleziona')
-    //         console.log(el1.payTo)
-    //         console.log(`${el1.uid} musi zapłacic ${operation} do ${el1.payTo}`)
-    //       }
+          const operation = Number(el1.value) - Number(el2.value)
+          if(operation > 0) {
+            console.log('Para znaleziona')
+            console.log(el1.payTo)
+            console.log(`${el1.uid} musi zapłacic ${operation} do ${el1.payTo}`)
+          }
     
-    //     } 
-    //   })
-    // })
+        } 
+      })
+    })
   }
 
   
