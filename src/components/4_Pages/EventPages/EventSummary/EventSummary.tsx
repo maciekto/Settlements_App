@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { selectedEventContext } from '../EventDashboard/EventDashboard'
 import { update } from 'firebase/database';
+import Button from '../../../0_Atoms/Button/Button';
 
 type needsToPayObject = {
   uid: string;
@@ -12,7 +13,7 @@ type needsToPayObject = {
 export default function EventSummary() {
 
   const selectedEvent = useContext(selectedEventContext)
-
+  const [showSummary, setShowSummary] = useState<boolean>(false)
   const [needsToPay, setNeedsToPay] = useState<needsToPayObject[]>([])
 
   function initial() {
@@ -87,18 +88,66 @@ export default function EventSummary() {
   }
 
   function loadSummary() {
+    setShowSummary(true)
+
     needsToPay.forEach((el1) => {
       needsToPay.forEach((el2) => {
         if(el1.uid === el2.payTo && el1.payTo === el2.uid) {
-          
           const operation = Number(el1.value) - Number(el2.value)
-          if(operation > 0) {
-            console.log('Para znaleziona')
-            console.log(el1.payTo)
-            console.log(`${el1.uid} musi zapłacic ${operation} do ${el1.payTo}`)
+          if(operation >= 0) {
+            // console.log('Para znaleziona')
+            // console.log(el1.payTo)
+            // console.log(`${el1.uid} musi zapłacic ${operation} do ${el1.payTo}`)
+            const object: needsToPayObject = {
+              uid: el1.uid,
+              value: operation,
+              payTo: el1.payTo,
+              paymentsIds: [...el1.paymentsIds, ...el2.paymentsIds]
+            }
+            // console.log(object)
+
+
+              const updated = needsToPay.map(element => {
+                if((element.payTo == object.payTo || element.payTo == object.uid) && (element.uid == object.uid || element.uid == object.payTo)) {
+                  console.log(element)
+                  return object;
+                } else {
+                  console.log(element)
+                  return element;
+                }
+              });
+
+              const duplicateCheck: needsToPayObject[] = []
+
+              updated.forEach((el1, index1) => {
+                
+                updated.forEach((el2, index2) => {
+                  if(index1 == index2) {
+                    if(!duplicateCheck.includes(el1)) {
+                      duplicateCheck.push(el1)
+                    }
+                  }
+
+                  else {
+                    if(el1.paymentsIds != el2.paymentsIds) {
+                      if(!duplicateCheck.includes(el1)) {
+                        duplicateCheck.push(el1)
+                      }
+                    
+                    } 
+                  }
+                })
+              })
+
+              const checkIfThereAreZeros = duplicateCheck.filter((el) => {
+                if(el.value == 0) {return false}
+                else{return true}
+              })
+
+
+              setNeedsToPay(checkIfThereAreZeros)
           }
-    
-        } 
+        }
       })
     })
   }
@@ -106,8 +155,6 @@ export default function EventSummary() {
   
 
   useEffect(() => {
-    
-    // console.log(needsToPay)
     initial()
   }, [selectedEvent])
 
@@ -115,13 +162,13 @@ export default function EventSummary() {
 
   return (
     <>
-    <div>EventSummary</div>
-      {needsToPay.map((el: needsToPayObject) => {
-        return <div className='pt-2'>
+      <div>EventSummary</div>
+      {showSummary && needsToPay.map((el: needsToPayObject, index) => {
+        return <div className='pt-2' key={index}>
           {el.uid} musi zapłacić {`${el.value}`} do {el.payTo}
         </div>
       })}
-      <input type='button' value={'Summary'} onClick={loadSummary}/>
+      <Button variant={'base'} type='button' onClick={loadSummary}>Show summary</Button>
     </>
   )
 }
