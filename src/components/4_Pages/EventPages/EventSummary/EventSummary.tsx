@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { selectedEventContext } from '../EventDashboard/EventDashboard'
 import { update } from 'firebase/database';
 import Button from '../../../0_Atoms/Button/Button';
+import getUser from '../../../utilities/getUser';
+import AllUsersContext from '../../../context/AllUsersContext';
+import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
 
 type needsToPayObject = {
   uid: string;
@@ -12,6 +15,7 @@ type needsToPayObject = {
 
 export default function EventSummary() {
 
+  const allUsers = useContext(AllUsersContext)
   const selectedEvent = useContext(selectedEventContext)
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [needsToPay, setNeedsToPay] = useState<needsToPayObject[]>([])
@@ -164,8 +168,14 @@ export default function EventSummary() {
     <>
       <div>EventSummary</div>
       {showSummary && needsToPay.map((el: needsToPayObject, index) => {
+        const user: any = getUser(el.uid, allUsers)
+        const userPayTo: any = getUser(el.payTo, allUsers)
+
         return <div className='pt-2' key={index}>
-          {el.uid} musi zapłacić {`${el.value}`} do {el.payTo}
+          {/* <UserAvatar myUser={user}/>  */}
+          {user.displayName} musi zapłacić {`${el.value}`} do&nbsp;  
+          {/* <UserAvatar myUser={userPayTo}/>  */}
+          {userPayTo.displayName}
         </div>
       })}
       <Button variant={'base'} type='button' onClick={loadSummary}>Show summary</Button>

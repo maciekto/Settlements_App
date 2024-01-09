@@ -11,6 +11,7 @@ import { child, getDatabase, onValue, ref, update } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import { generateUniqueId, year, month, day } from '../../utilities/generateUniqueId';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
+import getUser from '../../utilities/getUser';
 
 type Inputs = {
   amount: string;
@@ -27,7 +28,7 @@ type UserPayment = {
 }
 
 export default function PaymentCreateForm({ currentEvent }: Props) {
-
+	const allUsers = useContext(AllUsersContext)
 	const myUser = useContext<MyUser>(UserContext);
 	const navigate = useNavigate();
 	const [paymentUsers, setPaymentUsers] = useState<UserPayment[]>([]);
@@ -240,17 +241,17 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
 
 
-				<label>
-					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked}/>
-					{ownerUser.uid}
-					<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'}/>
+				<label className='p-2 flex gap-2 justify-between' htmlFor={ownerUser.uid}>
+					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked} className='w-4' id={ownerUser.uid}/>
+					{`${getUser(ownerUser.uid, allUsers).displayName}`}
+					<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'} className='w-12'/>
 				</label>
 				
 				{paymentUsers.map((el, index) => {
-					return <label key={index}>
-						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked}/>
-						{el.uid}
-						<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'}/>
+					return <label key={index} className='p-2 flex gap-2 justify-between' htmlFor={el.uid}>
+						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked} className='w-4' id={el.uid}/>
+						{`${getUser(el.uid, allUsers).displayName}`}
+						<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'} className='w-12'/>
 					</label>
 				})}
 					
