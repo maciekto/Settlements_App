@@ -5,6 +5,7 @@ import Button from '../../../0_Atoms/Button/Button';
 import getUser from '../../../utilities/getUser';
 import AllUsersContext from '../../../context/AllUsersContext';
 import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
+import UserPill from '../../../1_Molecues/UserPill/UserPill';
 
 type needsToPayObject = {
   uid: string;
@@ -156,8 +157,6 @@ export default function EventSummary() {
     })
   }
 
-  
-
   useEffect(() => {
     initial()
   }, [selectedEvent])
@@ -166,19 +165,24 @@ export default function EventSummary() {
 
   return (
     <>
-      <div>EventSummary</div>
       {showSummary && needsToPay.map((el: needsToPayObject, index) => {
         const user: any = getUser(el.uid, allUsers)
         const userPayTo: any = getUser(el.payTo, allUsers)
 
-        return <div className='pt-2' key={index}>
-          {/* <UserAvatar myUser={user}/>  */}
-          {user.displayName} musi zapłacić {`${el.value}`} do&nbsp;  
-          {/* <UserAvatar myUser={userPayTo}/>  */}
-          {userPayTo.displayName}
+        return <div className='border-2 border-themePrimary mb-3 rounded-2xl' key={index}>
+          <div className='p-2'>
+            Settlement {index + 1}
+          </div>
+          <div className='w-full h-[2px] bg-themePrimary'></div>
+          <div className='p-2 flex flex-wrap items-center gap-2'>
+            <UserPill user={user} maxWFit={true} border={false}/> <p className='font-bold text-themeDanger'>{`${el.value}`}</p> to&nbsp; 
+            <UserPill user={userPayTo} maxWFit={true} border={false}/>
+          </div>
+          
         </div>
       })}
-      <Button variant={'base'} type='button' onClick={loadSummary}>Show summary</Button>
+      {showSummary ? null : <Button variant={'base'} type='button' onClick={loadSummary}>Show summary</Button>}
+      
     </>
   )
 }

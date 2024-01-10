@@ -19,6 +19,8 @@ body {
 	-webkit-user-select: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
+	display: grid;
+	place-items: center;
 }
 
 * {
@@ -44,4 +46,5 @@ main {
 #root {
 	width: 100vw;
 	max-height: 100svh;
+	max-width: 450px;
 }

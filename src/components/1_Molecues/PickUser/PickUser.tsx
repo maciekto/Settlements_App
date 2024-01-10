@@ -43,7 +43,7 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 						}
 						return false;
 					});
-
+					
 					// Length of the array is 0 if user is not in selectedUsers array
 					if (isUserAlreadySelected.length !== 0) return null;
 				}

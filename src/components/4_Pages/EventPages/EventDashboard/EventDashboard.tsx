@@ -70,7 +70,7 @@ export default function EventDashboard() {
 	async function getUser(uid: string) {
 		await onValue(ref(db, `/users/${uid}`), (snapshot) => {
 			if (snapshot.exists()) {
-				setEventOwner(snapshot.val());
+				setEventOwner({... snapshot.val(), uid: uid });
 			}
 		});
 	}

@@ -1,9 +1,16 @@
+import { useContext } from 'react';
 import Button from '../../0_Atoms/Button/Button';
 import Pill from '../../0_Atoms/Pill/Pill';
 import PillsSection from '../../1_Molecues/PillsSection/PillsSection';
+import UserPill from '../../1_Molecues/UserPill/UserPill';
+import { defaultMyUser } from '../../utilities/defaultUser';
+import UserContext from '../../context/UserContext';
 
 export default function Testing() {
+	const myUser = useContext(UserContext)
+	console.log(myUser)
 	return (
+		<>
 		<div>
 			<Button
 				variant='cta'
@@ -73,6 +80,9 @@ export default function Testing() {
 				<Pill>Pill</Pill>
 				<Pill>Ale bang</Pill>
 			</PillsSection>
+			
 		</div>
+		<UserPill user={myUser}/>
+		</>
 	);
 }

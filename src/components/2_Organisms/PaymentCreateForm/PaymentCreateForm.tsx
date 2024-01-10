@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app';
 import { generateUniqueId, year, month, day } from '../../utilities/generateUniqueId';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
 import getUser from '../../utilities/getUser';
+import UserPill from '../../1_Molecues/UserPill/UserPill';
 
 type Inputs = {
   amount: string;
@@ -240,19 +241,32 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 			</label>
 
 
-
-				<label className='p-2 flex gap-2 justify-between' htmlFor={ownerUser.uid}>
-					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked} className='w-4' id={ownerUser.uid}/>
-					{`${getUser(ownerUser.uid, allUsers).displayName}`}
-					<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'} className='w-12'/>
-				</label>
+				{}
+				<div className='flex justify-between mt-2 mb-2 gap-2'>
+				<label className='w-full' htmlFor={ownerUser.uid}>
+					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked} className='w-4 hidden' id={ownerUser.uid}/>
+					<UserPill user={getUser(ownerUser.uid, allUsers)} checked={ownerUser.checked}/>
+					</label>
+					
+					<label className='flex items-center gap-2 border-2 border-themePrimary rounded-2xl pl-2 pr-2'>
+							Amount 
+							<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'} className='w-16 focus-visible:outline-none  border-none pl-2 pr-2 rounded-2xl h-full'/>
+						</label>
+				</div>
 				
 				{paymentUsers.map((el, index) => {
-					return <label key={index} className='p-2 flex gap-2 justify-between' htmlFor={el.uid}>
-						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked} className='w-4' id={el.uid}/>
-						{`${getUser(el.uid, allUsers).displayName}`}
-						<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'} className='w-12'/>
-					</label>
+					return <div className='flex justify-between mt-2 mb-2 gap-2'>
+					<label key={index} className='w-full' htmlFor={el.uid}>
+						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked} className='w-4 hidden' id={el.uid} />
+						<UserPill user={getUser(el.uid, allUsers)} checked={el.checked}/>
+						</label>
+						
+						<label className='flex items-center gap-2 border-2 border-themePrimary rounded-2xl pl-2 pr-2'>
+							Amount 
+							<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'} className='w-16 focus-visible:outline-none  border-none pl-2 pr-2 rounded-2xl h-full'/>
+						</label>
+						
+					</div>
 				})}
 					
 
