@@ -11,6 +11,8 @@ import { child, getDatabase, onValue, ref, update } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import { generateUniqueId, year, month, day } from '../../utilities/generateUniqueId';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
+import getUser from '../../utilities/getUser';
+import UserPill from '../../1_Molecues/UserPill/UserPill';
 
 type Inputs = {
   amount: string;
@@ -27,12 +29,12 @@ type UserPayment = {
 }
 
 export default function PaymentCreateForm({ currentEvent }: Props) {
-
+	const allUsers = useContext(AllUsersContext)
 	const myUser = useContext<MyUser>(UserContext);
 	const navigate = useNavigate();
 	const [paymentUsers, setPaymentUsers] = useState<UserPayment[]>([]);
 	const [ownerUser, setOwnerUser] = useState<UserPayment>({
-		uid: myUser.uid,
+		uid: currentEvent.owner,
 		checked: true,
 		value: 0
 	})
@@ -55,7 +57,6 @@ export default function PaymentCreateForm({ currentEvent }: Props) {
 const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
 	const uniqueId = generateUniqueId();
-
 		const paymentObject = {
 			date: `${year}-${month}-${day}`,
 			id: uniqueId,
@@ -75,7 +76,8 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
 					const userPaymentObject = {
 						uid: user.uid,
-						value: user.value
+						value: user.value,
+						id: generateUniqueId()
 					}
 					if(user.checked) {
 						Object.defineProperty(paymentObject.users, user.uid, {
@@ -177,6 +179,13 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 					if(checkIfAlreadyExists.length > 0)
 						return [...prevValue]
 					else
+						if(user === myUser.uid) {
+							return [...prevValue, {
+								uid: currentEvent.owner,
+								checked: false,
+								value: 0
+							}]
+						}
 						return [...prevValue, {
 							uid: user,
 							checked: false,
@@ -232,19 +241,32 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
 			</label>
 
 
-
-				<label>
-					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked}/>
-					{ownerUser.uid}
-					<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'}/>
-				</label>
+				{}
+				<div className='flex justify-between mt-2 mb-2 gap-2'>
+				<label className='w-full' htmlFor={ownerUser.uid}>
+					<input type='checkbox' name={ownerUser.uid} checked={ownerUser.checked} onChange={handleOwnerChecked} className='w-4 hidden' id={ownerUser.uid}/>
+					<UserPill user={getUser(ownerUser.uid, allUsers)} checked={ownerUser.checked}/>
+					</label>
+					
+					<label className='flex items-center gap-2 border-2 border-themePrimary rounded-2xl pl-2 pr-2'>
+							Amount 
+							<input type='number' name={ownerUser.uid} value={ownerUser.value} onChange={handleOwnerValue} step={'any'} className='w-16 focus-visible:outline-none  border-none pl-2 pr-2 rounded-2xl h-full'/>
+						</label>
+				</div>
 				
 				{paymentUsers.map((el, index) => {
-					return <label key={index}>
-						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked}/>
-						{el.uid}
-						<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'}/>
-					</label>
+					return <div className='flex justify-between mt-2 mb-2 gap-2'>
+					<label key={index} className='w-full' htmlFor={el.uid}>
+						<input type='checkbox' name={el.uid} onChange={handleChecked} checked={el.checked} className='w-4 hidden' id={el.uid} />
+						<UserPill user={getUser(el.uid, allUsers)} checked={el.checked}/>
+						</label>
+						
+						<label className='flex items-center gap-2 border-2 border-themePrimary rounded-2xl pl-2 pr-2'>
+							Amount 
+							<input type='number' name={el.uid} value={el.value} onChange={handleValue} step={'any'} className='w-16 focus-visible:outline-none  border-none pl-2 pr-2 rounded-2xl h-full'/>
+						</label>
+						
+					</div>
 				})}
 					
 

@@ -2,6 +2,10 @@ function generateNewDate() {
 	return new Date();
 }
 
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
 export function generateUniqueId() {
 	let uniqueId = 'id';
 	const date = new Date();
@@ -11,6 +15,7 @@ export function generateUniqueId() {
 	uniqueId += date.getMinutes();
 	uniqueId += date.getSeconds();
 	uniqueId += date.getMilliseconds();
+	uniqueId += getRandomInt(10000)
 	return uniqueId
 }
 const date = generateNewDate();

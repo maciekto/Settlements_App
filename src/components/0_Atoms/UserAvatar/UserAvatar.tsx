@@ -19,6 +19,7 @@ export default function UserAvatar({ myUser, size = 'small', onClick }: Props) {
 	function handleClick() {
 		if(onClick) onClick();
 		navigate(`/user/${myUser?.uid}`)
+		console.log(myUser)
 	}
 
 	useEffect(() => {
