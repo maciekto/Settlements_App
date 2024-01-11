@@ -121,43 +121,45 @@ export default function EventDashboard() {
 	if (selectedEvent) {
 		return (
 			<div className='h-full'>
-				<div className='flex justify-between items-center mb-6'>
-					<span className='font-bold text-xl'>{selectedEvent.name}</span>
-					<UserAvatar
-						myUser={eventOwner}
-						size='medium'
-					/>
-				</div>
+				<div className='border-2 border-themePrimary p-2 pt-4 pb-4 rounded-2xl flex flex-col gap-4 mb-4'>
+					<div className='flex justify-between items-center pl-2 pr-2'>
+						<span className='font-bold text-xl'>{selectedEvent.name}</span>
+						<UserAvatar
+							myUser={eventOwner}
+							size='medium'
+						/>
+					</div>
 
-				<div className='flex gap-2'>
-					{usersInEvent.map((user, index) => {
-						return (
-							<UserAvatar
-								key={index}
-								myUser={user}
-								size='medium'
-							/>
-						);
-					})}
-				</div>
-				<PillsSection>
-				<Pill
-						onClick={() => {
-							navigate(`/event/${params.id}/`);
-						}}>
-						Summary
-					</Pill>
+					<div className='flex gap-2 pl-2 pr-2'>
+						{usersInEvent.map((user, index) => {
+							return (
+								<UserAvatar
+									key={index}
+									myUser={user}
+									size='medium'
+								/>
+							);
+						})}
+					</div>
+					<PillsSection>
 					<Pill
-						onClick={() => {
-							navigate(`/event/${params.id}/payments`);
-						}}>
-						Payments
-					</Pill>
-					
+							onClick={() => {
+								navigate(`/event/${params.id}/`);
+							}}>
+							Summary
+						</Pill>
+						<Pill
+							onClick={() => {
+								navigate(`/event/${params.id}/payments`);
+							}}>
+							Payments
+						</Pill>
+						
 
-					<Pill onClick={editEvent}>Edit Event</Pill>
-					<></>
-				</PillsSection>
+						<Pill onClick={editEvent}>Edit Event</Pill>
+						<></>
+					</PillsSection>
+				</div>
 				<selectedEventContext.Provider value={selectedEvent}>
 					<Outlet></Outlet>
 				</selectedEventContext.Provider>
