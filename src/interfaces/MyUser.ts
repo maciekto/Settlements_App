@@ -5,4 +5,6 @@ interface MyUser {
 	ownerOfEvents: string[];
 	participateOfEvents: string[];
 	uid: string;
+	phoneNumber?: string;
+	bankAccountNumber?: string;
 }

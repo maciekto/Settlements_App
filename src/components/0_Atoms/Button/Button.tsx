@@ -43,7 +43,7 @@ export default function Button({ onClick, children, variant, type = 'button' }: 
 			type={type}
 			onClick={() => handleClick()}
 			value={children}
-			className={`h-12 p-2 border-2 border-themePrimary rounded-2xl mt-4 mb-4 cursor-pointer w-full ${variantStyles} ${onClickAnim} hover:scale-100 transition-transform duration-200`}
+			className={`h-12 p-2 border-2 border-themePrimary rounded-2xl mt-2 mb-2 cursor-pointer w-full ${variantStyles} ${onClickAnim} hover:scale-100 transition-transform duration-200`}
 		/>
 	);
 }
