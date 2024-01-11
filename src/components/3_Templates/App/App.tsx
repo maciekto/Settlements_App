@@ -8,7 +8,7 @@ export default function App() {
 		<main className='text-themePrimary max-w-full w-full grid h-screenIOs grid-rows-AppTemplate pl-4 pr-4'>
 			<DBProvider>
 				<Nav />
-				<main className='pt-6 pb-6 w-full overflow-y-scroll'>
+				<main className='mt-2 pt-4 mb-2 pb-4 w-full overflow-y-scroll p-2'>
 					<Outlet />
 				</main>
 			</DBProvider>
