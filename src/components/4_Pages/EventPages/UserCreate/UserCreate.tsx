@@ -79,11 +79,11 @@ function UserCreate() {
 		// 		// ...
 		// 	});
 		const uniqueUserUid = generateUniqueId()
-		const user: CreateUserDB = {
+		const user = {
 			uid: uniqueUserUid,
 			displayName: data.userName,
 			email: data.userEmail,
-			photoURL: userIconDefault
+			photoURL: false
 		}
 		
 
