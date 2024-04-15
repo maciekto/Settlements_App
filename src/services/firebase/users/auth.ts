@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import { child, get, ref, set } from 'firebase/database';
 import { db, dbRef } from '../firebase';
+import CreateUserDB from '../../../interfaces/CreateUserDB';
 
 // Auth functionality
 export async function isUserInDB(user: User): Promise<boolean> {
@@ -26,7 +27,9 @@ export async function isUserInDB(user: User): Promise<boolean> {
 		});
 }
 
-export async function createNewUserInDB({ uid, displayName, email, photoURL }: User) {
+
+
+export async function createNewUserInDB({ uid, displayName, email, photoURL }: CreateUserDB) {
 	await set(ref(db, `users/${uid}`), {
 		displayName: displayName,
 		email: email,
