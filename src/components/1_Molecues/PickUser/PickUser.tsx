@@ -3,6 +3,8 @@ import { UseFormResetField } from 'react-hook-form';
 import AllUsersContext from '../../context/AllUsersContext';
 import UserContext from '../../context/UserContext';
 import UserAvatar from '../../0_Atoms/UserAvatar/UserAvatar';
+import Button from '../../0_Atoms/Button/Button';
+import { Link, useParams } from 'react-router-dom';
 type Inputs = {
 	amount: string;
   name: string;
@@ -19,6 +21,7 @@ interface Props {
 }
 
 export default function PickUser({ usersInput, resetField, setSelectedUsers, selectedUsers, variant }: Props) {
+	const params = useParams()
 	const allUsers = useContext(AllUsersContext);
 	const myUser = useContext(UserContext);
 	const [filteredUsers, setFilteredUsers] = useState<MyUser[] | undefined>(undefined);
@@ -121,7 +124,7 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 					</div>
 				) : null}
 			</div>
-			<div className={`${filteredUsers ? 'h-16 opacity-100 p-2' : 'h-0 opacity-0 p-0'} w-full bg-themeWhite rounded-2xl border-2 border-themePrimary shadow-2xl transition-all duration-500 flex  flex-col overflow-scroll`}>
+			<div className={`${filteredUsers ? 'h-32 opacity-100 p-2' : 'h-0 opacity-0 p-0'} w-full bg-themeWhite rounded-2xl border-2 border-themePrimary shadow-2xl transition-all duration-500 flex  flex-col overflow-scroll`}>
 				{filteredUsers !== undefined && filteredUsers?.length > 0 ? (
 					filteredUsers.map((user) => {
 						return (
@@ -136,6 +139,10 @@ export default function PickUser({ usersInput, resetField, setSelectedUsers, sel
 				) : (
 					<div className='p-1 text-center grid items-center h-full'>User not found</div>
 				)}
+				<Link to={`/event/${params.id}/createUser`}>
+					<Button variant='cta'>Add new member</Button>
+				</Link>
+
 			</div>
 		</>
 	);

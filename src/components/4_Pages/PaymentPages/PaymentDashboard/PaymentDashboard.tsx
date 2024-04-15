@@ -5,8 +5,12 @@ import ParticipateEventsContext from '../../../context/ParticipateEventsContext'
 import { defaultEvent } from '../../../utilities/defaultEvent';
 import { defaultPayment } from '../../../utilities/defaultPayment';
 import Loader from '../../../0_Atoms/Loader/Loader';
+import UserAvatar from '../../../0_Atoms/UserAvatar/UserAvatar';
+import getUser from '../../../utilities/getUser';
+import AllUsersContext from '../../../context/AllUsersContext';
 
 export default function PaymentDashboard() {
+	const allUsers = useContext(AllUsersContext)
   const navigate = useNavigate()
 	const params = useParams();
 	const myEvents = useContext(MyEventsContext);
@@ -65,23 +69,21 @@ export default function PaymentDashboard() {
   if(selectedPayment.id == defaultPayment.id) { return <Loader size={'big'} /> }
   if(selectedPayment != defaultPayment) { 
     return <div className='h-full'>
-      	<div className='flex justify-between items-center mb-6'>
-					<span className='font-bold text-xl'>{selectedPayment.name}</span>
-					{/* <UserAvatar
-						myUser={myUser}
-						size='medium'
-					/> */}
+      	<div className='flex justify-between items-start mb-6 flex-col w-full gap-2 border-2 border-themePrimary rounded-2xl p-4'>
+					<div className='text-themeSecondary'>{selectedPayment.date}</div>
+					<div className='font-bold text-xl w-full'>{selectedPayment.name}</div>
+					<div className='font-bold'>Amount: {selectedPayment.amount}</div>
+					<div className='flex gap-4'>
+						<div> <UserAvatar myUser={getUser(selectedPayment.whopaid.uid, allUsers)} /> {`${selectedPayment.whopaid.value}`} </div>
+						{Object.values(selectedPayment.users).map(user => {
+							return <div><UserAvatar myUser={getUser(user.uid, allUsers)} /> {`${user.value}`}</div>
+						})}
+					</div>
+					
 				</div>
 
 				<div className='flex gap-2'>
-					{/* {usersInEvent.map((user) => {
-						return (
-							<UserAvatar
-								myUser={user}
-								size='medium'
-							/>
-						);
-					})} */}
+					
 				</div>
     </div>
   }

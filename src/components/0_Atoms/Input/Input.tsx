@@ -11,15 +11,16 @@ interface Props {
 	placeholder: string;
 	defaultValue: string;
 	register: Object | null;
-	variant?: 'base' | 'danger' | 'outline';
+	variant?: 'base' | 'danger' | 'outline' | 'disabled';
 }
 
-const Input = ({ type, placeholder, defaultValue, register, variant = 'base' }: Props) => {
+const Input = ({ type, placeholder, defaultValue, register, variant = 'base'}: Props) => {
 	const [variantStyles, setVariantStyles] = useState<string | null>(null);
 	const variants = {
 		base: 'border-2 border-themeGray rounded-none',
 		outline: 'border-themePrimary rounded-2xl h-12 p-2 border-2 mt-2 mb-2',
 		danger: 'border-themeDanger rounded-2xl h-12 p-2 border-2 mt-2 mb-2',
+		disabled: 'border-themePrimary rounded-2xl h-12 p-2 border-2 mt-2 mb-2 bg-themeGray'
 	};
 
 	useEffect(() => {
@@ -33,8 +34,8 @@ const Input = ({ type, placeholder, defaultValue, register, variant = 'base' }: 
 			type={type}
 			step={'any'}
 			placeholder={placeholder}
-			className={`${variantStyles} w-full transition-transform duration-200 `}
-
+			className={`${variantStyles} w-full transition-transform duration-200`}
+			disabled={variant === 'disabled' && true}
 			// onChange={(e) => onChange(e)}
 		/>
 	);

@@ -8,6 +8,7 @@ import UserContext from '../../context/UserContext';
 import AllUsersContext from '../../context/AllUsersContext';
 import { defaultMyUser } from '../../utilities/defaultUser';
 import { defaultEvent } from '../../utilities/defaultEvent';
+import AllEventsContext from '../../context/AllEventsContext';
 
 interface Props {
 	children: JSX.Element[] | JSX.Element;
@@ -18,6 +19,7 @@ export default function DBProvider({ children }: Props) {
 	const [participateEvents, setParticipateEvents] = useState<SettlementEvent[]>([defaultEvent]);
 	const [myUser, setMyUser] = useState<MyUser>(defaultMyUser);
 	const [allUsers, setAllUsers] = useState<MyUser[]>([defaultMyUser]);
+	const [allEvents, setAllEvents] = useState<SettlementEvent[]>([defaultEvent])
 
 	const url = window.location.href;
 
@@ -127,14 +129,16 @@ export default function DBProvider({ children }: Props) {
 		}
 	}, [myUser]);
 	return (
-		<MyEventContext.Provider value={myEvents}>
-			<ParticipateEventsContext.Provider value={participateEvents}>
-				<UserContext.Provider value={myUser}>
-					<AllUsersContext.Provider value={allUsers}>
-						<>{children}</>
-					</AllUsersContext.Provider>
-				</UserContext.Provider>
-			</ParticipateEventsContext.Provider>
-		</MyEventContext.Provider>
+		<AllEventsContext.Provider value={allEvents}>
+			<MyEventContext.Provider value={myEvents}>
+				<ParticipateEventsContext.Provider value={participateEvents}>
+					<UserContext.Provider value={myUser}>
+						<AllUsersContext.Provider value={allUsers}>
+							<>{children}</>
+						</AllUsersContext.Provider>
+					</UserContext.Provider>
+				</ParticipateEventsContext.Provider>
+			</MyEventContext.Provider>
+		</AllEventsContext.Provider>	
 	);
 }
