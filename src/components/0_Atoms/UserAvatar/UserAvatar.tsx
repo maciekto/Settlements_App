@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import userIconDefault from '../../../assets/userIconDefault.jpg';
+import userIconDefault from '../../../../public/userIconDefault.jpg';
 import { useNavigate } from 'react-router-dom';
 interface Props {
 	myUser?: MyUser;

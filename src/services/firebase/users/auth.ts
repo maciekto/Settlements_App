@@ -29,7 +29,7 @@ export async function isUserInDB(user: User): Promise<boolean> {
 
 
 
-export async function createNewUserInDB({ uid, displayName, email, photoURL }: CreateUserDB) {
+export async function createNewUserInDB({ uid, displayName, email, photoURL }: any) {
 	await set(ref(db, `users/${uid}`), {
 		displayName: displayName,
 		email: email,

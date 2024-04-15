@@ -6,7 +6,7 @@ import Button from '../../../0_Atoms/Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAuth, sendSignInLinkToEmail, User } from 'firebase/auth';
 import { generateUniqueId } from '../../../utilities/generateUniqueId';
-import userIconDefault from '../../../../assets/userIconDefault.jpg';
+import userIconDefault from '../../../../../public/userIconDefault.jpg';
 import CreateUserDB from '../../../../interfaces/CreateUserDB';
 import getUser from '../../../utilities/getUser';
 import AllUsersContext from '../../../context/AllUsersContext';
