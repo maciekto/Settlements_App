@@ -27,6 +27,7 @@ export default function Auth() {
 							await updateEventsInDBfirstSignIn(usr.email, usr.uid)
 							await updateUserInDBfirstSignIn(usr.email, usr.uid, usr.photoURL)
 							setIsDatabaseUser(isUserEmailInDB)
+							navigate(0)
 						}
 					}
 					
