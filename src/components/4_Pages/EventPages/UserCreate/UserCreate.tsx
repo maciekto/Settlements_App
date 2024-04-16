@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { createNewUserInDB, isUserInDB } from '../../../../services/firebase/users/auth';
+import { createNewUserInDB } from '../../../../services/firebase/users/auth';
 import Input from '../../../0_Atoms/Input/Input';
 import Button from '../../../0_Atoms/Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
