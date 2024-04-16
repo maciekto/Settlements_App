@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { createNewUserInDB, isUserInDB } from '../../../../services/firebase/users/auth';
+import { createNewUserInDB } from '../../../../services/firebase/users/auth';
 import Input from '../../../0_Atoms/Input/Input';
 import Button from '../../../0_Atoms/Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAuth, sendSignInLinkToEmail, User } from 'firebase/auth';
 import { generateUniqueId } from '../../../utilities/generateUniqueId';
-import userIconDefault from '../../../../assets/userIconDefault.jpg';
+import userIconDefault from '../../../../../public/userIconDefault.jpg';
 import CreateUserDB from '../../../../interfaces/CreateUserDB';
 import getUser from '../../../utilities/getUser';
 import AllUsersContext from '../../../context/AllUsersContext';
@@ -79,11 +79,11 @@ function UserCreate() {
 		// 		// ...
 		// 	});
 		const uniqueUserUid = generateUniqueId()
-		const user: CreateUserDB = {
+		const user = {
 			uid: uniqueUserUid,
 			displayName: data.userName,
 			email: data.userEmail,
-			photoURL: userIconDefault
+			photoURL: false
 		}
 		
 
